@@ -1,0 +1,92 @@
+<!-- 3D interactive card container -->
+<div 
+    #card class="card" 
+    (mousemove)="onMove($event)" 
+    (mouseleave)="reset()">
+    <!-- Card main body -->
+    <div class="body">
+
+        <!-- Card title -->
+        <h5 class="card-title">TOTAL BALANCE</h5>
+        <h3>$24.550.00</h3>
+
+        <!-- Image and floating UI elements -->
+        <div class="container-img">
+
+            <!-- Notification icon -->
+            <div class="notification">
+                <i class="bi bi-bell"></i>
+            </div>
+
+            <!-- Security status badge -->
+            <div class="sec-status">
+                <div class="icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <div class="info">
+                    <h6>Security Status</h6>
+                    <strong>Encrypted</strong>
+                </div>
+            </div>
+
+            <!-- Percentage variation indicator -->
+            <div class="values">
+                <h6>+12.5% vs last month</h6>
+            </div>
+
+            <!-- Daily goal progress -->
+            <div class="daily-goal">
+                <div class="title">
+                    <h6>Daily Goal</h6>
+                </div>
+                <div class="subtitle">
+                    <strong>
+                        <span>92% </span>
+                        <i class="bi bi-check-circle"></i>
+                    </strong>
+                </div>
+            </div>
+
+            <!-- Card image -->
+            <img ngSrc="FinAI-Hero.png" priority class="card-img-top" width="500" height="300"
+                alt="Dashboard illustration">
+        </div>
+
+        <!-- Recent transactions list -->
+        <div class="transactions">
+
+            <!-- Income transaction -->
+            <div class="earning">
+                <div class="first-row">
+                    <div class="icon">
+                        <i class="bi bi-arrow-up"></i>
+                    </div>
+                    <div class="description">
+                        <h6>Upwork Earnings</h6>
+                        <p>Today, 2:30 PM</p>
+                    </div>
+                </div>
+                <div class="value">
+                    <h5>+$850.00</h5>
+                </div>
+            </div>
+
+            <!-- Expense transaction -->
+            <div class="expense">
+                <div class="first-row">
+                    <div class="icon">
+                        <i class="bi bi-cart2"></i>
+                    </div>
+                    <div class="description">
+                        <h6>Grocery Store</h6>
+                        <p>Yesterday</p>
+                    </div>
+                </div>
+                <div class="value">
+                    <h5>-$124.50</h5>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

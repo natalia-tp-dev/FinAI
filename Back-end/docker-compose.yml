@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Database
+  mysql_db:
+    image: mysql:8.0
+    container_name: FinAI_db_container
+    restart: always
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql  
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    networks:
+      - FinAI-network
+
+
+
+  # Main Backend (GATEWAY)
+  gateway-service:
+    build: ./gateway_service
+    env_file:
+      - .env
+    container_name: gateway_service_container
+    volumes:
+      - ./gateway_service:/app
+      - /app/node_modules
+    command: npm run dev
+    ports:
+      - "${GATEWAY_PORT}:3000"
+    depends_on:
+      - mysql_db
+    networks:
+      - FinAI-network
+
+  # Payments and plans microservice
+  payment-service:
+    build: ./payment-service
+    container_name: payment_service_container
+    env_file:
+      - .env
+    ports:
+      - "${PAYMENT_PORT}:8081"
+    environment:
+      - SERVER_PORT=8081
+    depends_on:
+      - mysql_db
+    networks:
+      - FinAI-network
+  
+  # AI microservice
+  ai-service:
+    build:  ./ai_service
+    container_name: ai_service_container
+    networks:
+      - FinAI-network
+
+volumes:
+  finai_db_data:
+
+networks:
+  FinAI-network:
+    driver: bridge

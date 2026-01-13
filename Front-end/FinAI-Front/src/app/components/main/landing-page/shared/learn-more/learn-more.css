@@ -1,0 +1,134 @@
+
+#learn-more-section,
+#footer-section {
+    width: 100%;
+}
+
+.container-main {
+    height: 90dvh;
+    background-color: #16a34a;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    gap: 2rem;
+    color: white;
+}
+
+.container-info h2 {
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 700;
+}
+
+.container-info h4 {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 400;
+}
+
+.container-info h6 {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    opacity: 0.9;
+}
+
+.container-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.btn-primary {
+    background: white;
+    color: #16a34a;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.container-footer {
+    height: auto;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.footer-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.container-icon {
+    background: linear-gradient(90deg, var(--text-titles), var(--text-titles-secundary));
+    width: 2.5rem;
+    text-align: center;
+    height: 80%;
+    border-radius: 1rem;
+    margin-top: 0.3rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.container-logo .container-icon i {
+    font-size: 1.2rem;
+    color: var(--bg);
+    box-shadow: 2px 5px 20px 2px var(--text-titles);
+}
+
+.container-logo h2 {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0.2rem;
+    color: var(--text-default);
+}
+
+.container-logo h2 span {
+    color: var(--text-titles);
+}
+
+.footer-right {
+    display: flex;
+    gap: 1.5rem;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}

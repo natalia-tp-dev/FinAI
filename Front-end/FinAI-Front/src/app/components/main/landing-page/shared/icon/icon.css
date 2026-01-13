@@ -1,0 +1,27 @@
+.container-icon {
+    background: linear-gradient(90deg, var(--text-titles), var(--text-titles-secundary));
+    width: 3rem;
+    text-align: center;
+    height: 80%;
+    border-radius: 1rem;
+    margin-top: 0.3rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.container-logo .container-icon i {
+    font-size: 1.5rem;
+    color: var(--bg);
+    box-shadow: 2px 5px 20px 2px var(--text-titles);
+}
+
+.container-logo h2 {
+    text-decoration: none;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 0.2rem;
+    color: var(--text-default);
+}
+
+.container-logo h2 span {
+    color: var(--text-titles);
+}
