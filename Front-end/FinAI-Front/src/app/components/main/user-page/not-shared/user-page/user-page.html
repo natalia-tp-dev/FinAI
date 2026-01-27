@@ -1,0 +1,49 @@
+<section class="container-main">
+    <div class="container-header">
+        <app-header 
+            (onAddTransaction)="toggleForm(true, isTransactionCardVisible)" 
+        />
+    </div>
+    <div class="container-sidebar">
+        <app-sidebar/>
+    </div>
+    <div class="container-content">
+        <router-outlet (activate)="onRouteActivate($event)"/>
+    </div>
+    @if (isTransactionCardVisible()) {
+    <div class="container-transaction">
+        <app-add-transaction  
+            (onClose)="toggleForm(false, isTransactionCardVisible)"
+            (onOpen)="toggleForm(true, isCategoryCardVisible)" 
+        />
+    </div>
+    }
+    @if (isCategoryCardVisible()) {
+        <div class="container-add-category">
+            <app-add-category 
+                (onClose)="toggleForm(false, isCategoryCardVisible)"
+            />
+        </div>
+    }
+    @if (isGoalCardVisible()) {
+        <div class="container-add-goal">
+            <app-add-goal 
+                (onClose)="toggleForm(false, isGoalCardVisible)"
+            />
+        </div>
+    }
+    @if (isStatusCardVisible()) {
+        <div class="container-status">
+            <app-set-status 
+                (onClose)="toggleForm(false, isStatusCardVisible)"
+            />
+        </div>
+    }
+    @if (isUpdateGoalCarVisible()) {
+        <div class="container-status">
+            <app-update-goal
+                (onClose)="toggleForm(false, isUpdateGoalCarVisible)"
+            />
+        </div>
+    }
+</section>

@@ -1,0 +1,114 @@
+<section class="container-main">
+    <!--Info container, only visible in  > 800px screens-->
+    <div class="container-info">
+        <div class="wrapper-info">
+            <div class="wrapper-icon" routerLink="/" data-aos="fade-right">
+                <app-icon />
+            </div>
+            <div class="wrapper-features" data-aos="fade-up">
+                <h3>Start taking control of <span>your finances</span> today.</h3>
+                <p>Join over 100 users already managing their money the smart way.</p>
+                <ul>
+                    <li><i class="bi bi-check2-circle"></i><span>Total control over your finances.</span></li>
+                    <li><i class="bi bi-check2-circle"></i><span>Smart reports and analytics.</span></li>
+                    <li><i class="bi bi-check2-circle"></i><span>Sync across all your devices.</span></li>
+                    <li><i class="bi bi-check2-circle"></i><span>24/7 dedicated support.</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--Form container, only visible in  > 800px screens-->
+    <div class="register-container">
+        <div routerLink="/" class="container-icon" data-aos="zoom-in-up">
+            <app-icon />
+        </div>
+        <div class="register-card" data-aos="zoom-in-up">
+            <div class="container-header">
+                <header>Create Account</header>
+                <h6>Complete your information below</h6>
+            </div>
+            <!-- Container form, inputs and buttons -->
+            <div class="container-form">
+                <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+
+                    <!-- Full name input group -->
+                    <div class="input-group">
+                        <label for="">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-person"></i>
+                            <input formControlName="full_name" type="text" placeholder="Your Name">
+                        </div>
+                        <!-- Full name input group validators w-->
+                        @if (signUpForm.get('full_name')?.invalid && (signUpForm.get('full_name')?.dirty ||
+                        signUpForm.get('full_name')?.touched)) {
+                        <div class="error-container">
+                            @if (signUpForm.get('full_name')?.errors?.['required']) {
+                            <small class="text-danger">Full name is required</small>
+                            }
+                            @if (signUpForm.get('full_name')?.errors?.['minlength']) {
+                            <small class="text-danger">Name is too short (min 3 chars)</small>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Email input group -->
+                    <div class="input-group">
+                        <label for="">Email</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-envelope-at"></i>
+                            <input formControlName="email" type="text" placeholder="youremail@gmail.com">
+                        </div>
+                        <!-- Email input group validators -->
+                        @if (signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched) {
+                        <div class="error-container">
+                            @if (signUpForm.get('email')?.errors?.['required']) {
+                            <small class="text-danger">Email is required</small>
+                            }
+                            @if (signUpForm.get('email')?.errors?.['email'] || signUpForm.get('email')?.errors?.['pattern']) {
+                            <small class="text-danger">Please enter a valid email address</small>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Password input group -->
+                    <div class="input-group">
+                        <label for="">Password</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-lock"></i>
+                            <i class="bi bi-eye"></i>
+                            <input formControlName="password" type="password" placeholder="8 characters minimum">
+                        </div>
+                    </div>
+                    <button  [disabled]="signUpForm.invalid" class="btn " type="submit">Create Account</button>
+                </form>
+                <p>By registering, you agree to our Terms of Service and Privacy Policy.</p>
+            </div>
+
+            <div class="divider">
+                <span>or register with</span>
+            </div>
+            <div class="container-buttons-social">
+                <div class="wrapper-google">
+                    <button class="google btn">
+                        <i class="bi bi-google"></i>
+                        <span>Google</span>
+                    </button>
+                </div>
+                <div class="wrapper-github">
+                    <button class="github btn">
+                        <i class="bi bi-github"></i>
+                        <span>Github</span>
+                    </button>
+                </div>
+            </div>
+            <div class="divider">
+            </div>
+            <footer>
+                <span>Already have an account?</span>
+                <a routerLink="/sign-in"> Sign in</a>
+            </footer>
+        </div>
+    </div>
+</section>

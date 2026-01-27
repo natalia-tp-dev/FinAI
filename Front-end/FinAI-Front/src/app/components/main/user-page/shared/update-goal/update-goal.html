@@ -1,0 +1,24 @@
+<div class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>Update Saving</h2>
+            <button (click)="closeComponent()" class="btn-close">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <label class="input-label">Current Amount ($)</label>
+
+            <div class="input-container">
+                <span class="currency-symbol">$</span>
+                <input [formControl]="amount" type="number" class="amount-input" placeholder="0.00" value="currentAmount">
+            </div>
+
+            <div class="actions-grid">
+                <button (click)="closeComponent()" class="btn-cancel">Cancel</button>
+                <button (click)="update()" class="btn-save">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

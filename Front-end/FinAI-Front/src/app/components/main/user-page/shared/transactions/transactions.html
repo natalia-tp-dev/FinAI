@@ -1,0 +1,62 @@
+<div class="transactions-container">
+    @if (transactions().length > 0) {
+
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>DATE</th>
+                <th>DESCRIPTION</th>
+                <th>CATEGORY</th>
+                <th>AMOUNT</th>
+                <th class="actions-col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of transactions(); track item.id) {
+            <tr class="transaction-row">
+                <td class="date-cell">{{ item.date }}</td>
+                <td class="desc-cell">
+                    <strong>{{ item.description }}</strong>
+                    <span>Ref: {{ item.id }}</span>
+                </td>
+                <td>
+                    <span class="category-icon" [style.--color]="item.color" [style.--bg-color]="item.bgColor">
+                        <i class="bi" [ngClass]="item.icon"></i>
+                    </span>
+                    <span class="category-badge">{{ item.category }}</span>
+                </td>
+                <td>
+                    <span [class]="item.type === 'INCOME' ? 'text-income' : 'text-expense'">
+                        {{ item.type === 'INCOME' ? '+' : '-' }}${{ item.amount }}
+                    </span>
+                </td>
+                <td class="actions-cell">
+                    <div class="action-buttons">
+                        <button (click)="onEdit(item)" class="btn-edit"><i class="bi bi-pencil"></i></button>
+                        <button (click)="delete(item)" class="btn-delete"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button [disabled]="currentPage() === 1" (click)="changePage(-1)">Previous</button>
+        <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+        <button [disabled]="currentPage() === totalPages()" (click)="changePage(1)">Next</button>
+    </div>
+    }@else {
+    <div class="empty-transactions-card">
+        <div class="empty-icon">
+            <i class="bi bi-receipt-cutoff"></i>
+        </div>
+        <h3>No transactions found</h3>
+        <p>It looks like you don't have any records for this page.
+            Try adding a new expense or income to get started.</p>
+        <button class="btn-add-initial" (click)="onOpen.emit()">
+            <i class="bi bi-plus-lg"></i> Add Transaction
+        </button>
+    </div>
+    }
+</div>

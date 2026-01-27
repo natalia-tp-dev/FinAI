@@ -1,0 +1,291 @@
+
+.container-main {
+    background: radial-gradient(circle at 90% -10%, var(--bg-gradient), transparent 30%),
+        radial-gradient(circle at 5% 100%, var(--bg-gradient2), transparent 20%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+    text-align: center;
+    gap: 2rem;
+}
+
+.container-info {
+    margin-top: 2rem;
+}
+
+
+.floating-wrapper {
+    color: var(--text-titles-secundary);
+    border: 2px solid var(--text-titles);
+    background-color: var(--bg-transparent);
+    padding-left: 1.6rem;
+    padding-right: 1rem;
+    border-radius: 2rem;
+    width: fit-content;
+    margin: 0 auto;
+    height: 1.5rem;
+    position: relative;
+}
+
+.floating-wrapper h6 {
+    font-size: 0.9rem;
+}
+
+.floating-wrapper::before {
+    position: absolute;
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--text-titles-secundary);
+    border-radius: 2rem;
+    left: 0.7rem;
+    top: 0.3rem;
+    animation: shining 3s infinite;
+}
+
+.container-info h1 {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 600;
+    line-height: 1.1;
+    padding: 1rem;
+}
+
+.container-info h1 span {
+    background: linear-gradient(90deg, var(--text-titles-secundary), var(--text-titles));
+    background-clip: text;
+    color: transparent;
+}
+
+.container-info p {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* --- Botones --- */
+.container-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-start,
+.btn-demo {
+    width: clamp(10rem, 25vw, 16rem);
+    height: clamp(3.5rem, 8vw, 2rem);
+    border-radius: 2rem;
+    font-weight: 600;
+    transition: all 0.5s ease-in-out;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+}
+
+.btn-start {
+    color: var(--bg);
+    background: var(--text-default);
+}
+
+.btn-start span {
+    transition: all 0.5s ease-in-out;
+    padding-right: 0.5rem;
+}
+
+.btn-start:hover span {
+    padding-right: 1rem;
+}
+
+.btn-start:hover {
+    transform: scale(1.1);
+}
+
+.btn-demo {
+    background-color: var(--bg);
+    color: var(--text-default);
+    border: 2px solid var(--bg-clear);
+}
+
+
+.btn-start:active,
+.btn-demo:active {
+    transform: scale(0.95);
+}
+
+/* --- Avatares --- */
+.container-profiles {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.container-avatars {
+    display: flex;
+}
+
+.avatar {
+    width: clamp(3rem, 10vw, 4rem);
+    height: clamp(3rem, 10vw, 4rem);
+    border-radius: 50%;
+    background-color: var(--bg-clear);
+    border: 3px solid var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -15px;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+}
+
+.avatar:first-child {
+    background-color: rgb(252, 252, 142);
+}
+
+.avatar:nth-child(2) {
+    background-color: rgb(250, 203, 115);
+}
+
+.avatar:nth-child(3) {
+    background-color: greenyellow;
+}
+
+.avatar:nth-child(4) {
+    background-color: rgb(152, 206, 238);
+}
+
+.container-text strong,
+.container-text div {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.container-card {
+    display: none;
+}
+
+/* Tablets y Superior */
+@media (min-width: 768px) {
+    .container-main {
+        padding-top: 4rem;
+    }
+
+    .container-profiles {
+        flex-direction: row;
+    }
+
+    .container-card {
+        display: block;
+        max-width: 900px;
+        transform: scale(0.9);
+    }
+
+}
+
+/* Escritorio */
+@media (min-width: 1200px) {
+    .container-main {
+        padding-top: 4rem;
+        flex-direction: row;
+        justify-content: center;
+        gap: 8rem;
+    }
+
+    .container-info .floating-wrapper {
+        margin-bottom: 5rem;
+        margin: 0;
+    }
+
+    .container-info {
+        margin-top: 1rem;
+        text-align: left;
+        margin-left: 8rem;
+
+    }
+
+    .container-info h1 {
+        font-size: 4.5rem;
+        padding: 2rem 0;
+    }
+
+    .container-info p {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .container-buttons {
+        justify-content: flex-start;
+    }
+
+    .btn-start,
+    .btn-demo {
+        font-size: 1.2rem;
+        width: 11rem;
+        height: 3.4rem;
+    }
+
+    .container-profiles {
+        margin-left: 1rem;
+        justify-content: flex-start;
+    }
+
+    .avatar {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .container-text strong,
+    .container-text div {
+        font-size: 1.2rem;
+    }
+
+    .container-card {
+        margin-right: 15rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container-main {
+        padding-top: 0rem;
+    }
+
+    .container-info h1 {
+        font-size: 6rem;
+    }
+
+    .container-info p {
+        margin: 0;
+        font-size: 1.7rem;
+    }
+
+    .container-card img {
+        width: 600px;
+        height: 400px;
+    }
+}
+
+@keyframes shining {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}

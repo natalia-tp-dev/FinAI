@@ -1,0 +1,31 @@
+<div class="status-modal" data-aos="zoom-in">
+    <div class="modal-header">
+        <h2>Goal Status</h2>
+        <button (click)="closeComponent()" class="btn-close"><i class="bi bi-x-lg"></i></button>
+    </div>
+
+    <div class="modal-body">
+        <div (click)="updateStatus('ACTIVE')" class="status-option active">
+            <span class="status-text">Active</span>
+            <div class="status-icon">
+                
+                <i class="bi bi-play-circle-fill"></i>
+            </div>
+        </div>
+
+        <div (click)="updateStatus('COMPLETED')" class="status-option completed">
+            <span class="status-text">Completed</span>
+            <div class="status-icon">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+        </div>
+
+        <div (click)="updateStatus('ABANDONED')" class="status-option abandoned">
+            <span class="status-text">Abandoned</span>
+            <div class="status-icon">
+                
+                <i class="bi bi-x-circle-fill"></i>
+            </div>
+        </div>
+    </div>
+</div>

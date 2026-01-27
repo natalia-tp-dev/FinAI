@@ -1,0 +1,99 @@
+<section class="container-main">
+    @if(goalList().length === 0) {
+        <div class="empty-state-container">
+            <div class="empty-state-content">
+                <div class="icon-box">
+                    <i class="bi bi-trophy"></i>
+                </div>
+                <h2>No goals yet?</h2>
+                <p>Don't let your dreams be just dreams. Set your first saving goal and start tracking your progress today.</p>
+                <button (click)="onOpenCard()" class="btn-create-first">
+                    <i class="bi bi-plus-circle-fill"></i> Create My First Goal
+                </button>
+            </div>
+        </div>
+    } @else {
+    <div class="container-stats">
+        <div class="stat">
+            <div class="container-icon piggy">
+                <i class="bi bi-piggy-bank-fill"></i>
+            </div>
+            <div class="container-info">
+                <h5>Total saved</h5>
+                <h4>${{totalSaved().toFixed(2)}}</h4>
+            </div>
+        </div>
+        <div class="stat">
+            <div class="container-icon global">
+                <i class="bi bi-globe-asia-australia"></i>
+            </div>
+            <div class="container-info">
+                <h5>Global Goal</h5>
+                <h4>${{globalGoal().toFixed(2)}}</h4>
+            </div>
+        </div>
+        <div class="stat">
+            <div class="container-icon percentage">
+                <i class="bi bi-bar-chart-fill"></i>
+            </div>
+            <div class="container-info">
+                <h5>General Progress</h5>
+                <h4>{{generalProgress().toFixed(1)}}%</h4>
+            </div>
+        </div>
+    </div>
+    <div class="container-filter-goal">
+        <div class="container-status">
+            <button class="btn">All</button>
+            <button class="btn">Actives</button>
+            <button class="btn">Completed</button>
+        </div>
+        <div class="container-add-goal">
+            <button (click)="onOpenCard()" class="btn">
+                <i class="bi bi-plus"></i><span>New Goal</span></button>
+        </div>
+    </div>
+    <div class="container-goals">
+    
+        @for(goal of goalList(); track goal.id) {
+            <div class="goal-card">
+                <div class="card-header">
+                    <span class="status-badge">
+                        {{goal.status}}
+                    </span>
+                    <button (click)="onOpenStatusCard(goal)" class="btn-menu"><i class="bi bi-three-dots-vertical"></i></button>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="goal-name">{{goal.name}}</h3>
+                    <p class="goal-deadline">
+                        <i class="bi bi-calendar3"></i> Deadline: {{goal.deadline | date:'d MMM yyyy'}}
+                    </p>
+
+                    <div class="amount-container">
+                        <span class="current-amount">${{goal.current_amount}}</span>
+                        <span class="target-amount">of ${{goal.target_amount}}</span>
+                    </div>
+
+                    <div class="progress-wrapper">
+                        <div class="progress-bar-container">
+                            <div class="progress-fill" 
+                                 [style.width.%]="(goal.current_amount / goal.target_amount) * 100">
+                            </div>
+                        </div>
+                        <span class="progress-percentage">
+                            {{ ((goal.current_amount / goal.target_amount) * 100).toFixed(1) }}%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-actions">
+                    <button (click)="onOpenUpdateCard(goal)" class="btn-action secondary">
+                        <i class="bi bi-plus-circle"></i> Update
+                    </button>
+                </div>
+            </div>
+        }
+</div>
+    }
+</section>

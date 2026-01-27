@@ -1,0 +1,46 @@
+<!--Container main, if sidebar is collapsed then agg .sidebar-collapsed class-->
+<section [class.sidebar-collapsed]="isCollapsed()" class="container-main" data-aos="fade-rigth">
+    <div class="top-section">
+        <!--Reder icon component if sidebar is not collapsed-->
+        @if (!isCollapsed()) {
+            <div class="container-complete-icon">
+                <app-icon />
+                <div class="container-info">
+                    <span>Intelligent managment</span>
+                </div>
+            </div>
+        }
+        <!--Render icon id sidebar is collapsed-->
+        @if (isCollapsed()) {
+            <div class="container-icon" routerLink="/">
+                <i class="bi bi-wallet-fill"></i>
+            </div>
+        }
+        <div class="divider"></div>
+        <!--Agg class diassapear if sidebar is collapsed-->
+        <div class="features">
+            <button (click)="setPageInfo('Dashboard', 'Personal finance summary')" routerLink="/user-page/dashboard" type="button" class="btn"><i class="bi bi-grid-1x2-fill"></i><span [class.dissapear]="isCollapsed()">Dashboard</span></button>
+            <button (click)="setPageInfo('Transactions', 'Detailed transaction history')" routerLink="/user-page/transactions" type="button" class="btn"><i class="bi bi-send-arrow-up-fill"></i><span [class.dissapear]="isCollapsed()">Transactions</span></button>
+            <button (click)="setPageInfo('Smart savings', 'Manage your saving goals')" routerLink="/user-page/saving-goals" type="button" class="btn"><i class="bi bi-piggy-bank-fill"></i><span [class.dissapear]="isCollapsed()">Savings</span></button>
+            @if(planType() !== 'FREE') {
+                <button (click)="setPageInfo('AI Predictions', 'Let the AI guide you')" routerLink="/user-page/predictions" type="button" class="btn btn-predictions"><i class="bi bi-globe2"></i><span [class.dissapear]="isCollapsed()">AI</span></button>
+            }
+        </div>
+    </div>
+    <!--Footer section-->
+    <div class="footer">
+        <div class="user">
+            <div class="container-user">
+                <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="container-info-user" [class.dissapear]="isCollapsed()">
+                <strong><span class="username">{{ username() }}</span></strong>
+                <span class="email">{{ email() }}</span>
+            </div>
+        </div>
+        <!--Collapse button-->
+        <button (click)="collapse()" class="btn btn-collapse" type="button">
+            <i class="bi bi-arrow-left-right"></i> <span [class.dissapear]="isCollapsed()">Collapse</span> 
+        </button>
+    </div>
+</section>

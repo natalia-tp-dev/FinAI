@@ -1,0 +1,55 @@
+<div class="card-container" data-aos="zoom-in">
+    @if (aiGoalService.isGenerating()) {
+    <div class="loading-overlay">
+        <div class="ai-loader">
+            <div class="spinner"></div>
+            <p class="ai-text">Our AI Assistant is analyzing your goal</p>
+            <span class="sub-text">This process can take a few seconds</span>
+        </div>
+    </div>
+    }
+    <div class="card-header">
+        <div class="icon-wrapper">
+            <i class="bi bi-plus-lg"></i>
+        </div>
+        <h2>New Goal</h2>
+        <button (click)="closeComponent()" class="btn close"><i class="bi bi-x-circle-fill"></i></button>
+    </div>
+
+    <form [formGroup]="goalForm" (ngSubmit)="saveGoal()" class="goal-form">
+        <div class="form-group">
+            <label for="goalName">Goal Name</label>
+            <input formControlName="name" id="goalName" type="text" formControlName="name" placeholder="E.g. Japan Trip"
+                autocomplete="off">
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="targetAmount">Target Amount</label>
+                <div class="input-with-icon">
+                    <span class="currency-symbol">$</span>
+                    <input formControlName="targetAmount" id="targetAmount" type="number" formControlName="targetAmount"
+                        placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="currentAmount">Current Amount</label>
+                <div class="input-with-icon">
+                    <span class="currency-symbol">$</span>
+                    <input formControlName="currentAmount" id="currentAmount" type="number"
+                        formControlName="currentAmount" placeholder="0.00">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="deadline">Deadline</label>
+            <input formControlName="deadline" id="deadline" type="date" formControlName="deadline">
+        </div>
+
+        <button [disabled]="goalForm.invalid" type="submit" class="btn-submit">
+            Save Goal <i class="bi bi-send-fill"></i>
+        </button>
+    </form>
+</div>

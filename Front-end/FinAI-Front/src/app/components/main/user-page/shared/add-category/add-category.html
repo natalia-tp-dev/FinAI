@@ -1,0 +1,67 @@
+<section class="container-main" data-aos="zoom-in">
+    <div class="container-header">
+        <div class="title">
+            <h3>Create Category</h3>
+        </div>
+        <div class="close">
+            <button (click)="closeComponent()" type="button" class="btn close"><i class="bi bi-x"></i></button>
+        </div>
+    </div>
+    <div class="container-name">
+        <form [formGroup]="nameForm">
+            <div class="container-label">
+                <label for="name">Name</label>
+            </div>
+            <div class="container-input">
+                <input autocomplete="name" id="name" formControlName="name" type="text" placeholder="E.g. Gym">
+                
+                @if (nameForm.get('name')?.invalid && (nameForm.get('name')?.dirty || nameForm.get('name')?.touched)) {
+                    <div class="error-container">
+                            @if (nameForm.get('name')?.errors?.['required']) {
+                                <small class="text-danger">Name is required</small>
+                            }
+                            @if (nameForm.get('name')?.errors?.['minlength']) {
+                                <small class="text-danger">Name is too short (min 3 chars)</small>
+                            }
+                    </div>
+                }
+            </div>
+        </form>
+    </div>
+    <div class="container-name">
+        <div class="container-label">
+            <span>Color</span>
+        </div>
+        <div class="container-colors">
+            @for (color of AVAILABLE_COLORS; track color.name) {
+            <button 
+                type="button" 
+                class="color-btn"
+                (click)="selectColor(color.color)"
+                [class.active] = "selectedColor().toString() === color.color"
+                [style.--bg-color]="color.backgroundColor"
+                [style.--color]="color.color">
+            </button>
+            }
+        </div>
+    </div>
+    <div class="container-name">
+        <div class="container-label">
+            <span >Icon</span>
+        </div>
+        <div class="container-icons">
+            @for (icon of AVAILABLE_ICONS; track $index) {
+                <button
+                    class="icon-btn btn"
+                    (click)="selectIcon(icon)"
+                    [class.active] = "selectedIcon().toString() == icon"
+                >
+                    <i class="bi" [ngClass]="icon"></i>
+                </button>
+            }
+        </div>
+    </div>
+    <div class="container-button">
+        <button type="submit" [disabled]="nameForm.invalid" (click)="createCategory()" class="btn">Create Category</button>
+    </div>
+</section>

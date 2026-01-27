@@ -1,0 +1,95 @@
+<!-- MAIN CONTAINER -->
+<section class="transaction-card" data-aos="zoom-out">
+
+    <!-- CARD HEADER CONTAINER -->
+    <header class="transaction-card__header">
+        <div class="transaction-card__title-group">
+            <h3 class="transaction-card__title">New Transaction</h3>
+        </div>
+        <button type="button" class="btn" (click)="closeComponent()">
+            <i class="bi bi-x"></i>
+        </button>
+    </header>
+
+    <!-- SCROLLABLE CONTENT CONTAINER -->
+    <div class="transaction-card__content">
+        <!-- FIXED HEADER CONTENT CONTAINER -->
+        <nav class="type-selector">
+            <button 
+                type="button" 
+                (click)="selectType('expense')" 
+                [class.active]="selectedType() === 'expense'"
+                class="type-selector__btn type-selector__btn--expense">
+                Expense
+            </button>
+            <button 
+                type="button"
+                (click)="selectType('income')" 
+                [class.active]="selectedType() === 'income'"
+                class="type-selector__btn type-selector__btn--income">
+                Income
+            </button>
+        </nav>
+        <!-- SELECTOR TYPE CONTAINER -->
+        <fieldset class="form-group__amount">
+            <label class="form-group__label" for="amount">AMOUNT</label>
+            <div class="form-group__input-wrapper">
+                <input
+                    [formControl]="amountControl"
+                    [class.active] 
+                    [class.active-income]="selectedType().toString() === 'income'" 
+                    [class.active-expense]="selectedType().toString() === 'expense'" 
+                    type="number" 
+                    id="amount" 
+                    step="1.00"
+                    (blur)="onAmountBlur()"
+                    class="form-group__input-amount" 
+                    placeholder="0.00"
+                    >
+                <span>$</span>
+            </div>
+        </fieldset>
+        <!-- DATE PICKER CONTAINER -->
+        <fieldset class="form-group">
+            <label for="date" class="form-group__label">DATE</label>
+            <mat-form-field appearance="outline" class="form-group__date-picker">
+                <mat-label>DD/MM/YY</mat-label>
+                <input
+                    [formControl]="dateControl"
+                    matInput 
+                    [matDatepicker]="picker"
+                    [min]="minDate"
+                    [max]="maxDate"
+                    readonly
+                    (click)="picker.open()"
+                    id="date"
+                >
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </fieldset>
+        <!-- SELECTOR CATEGORY CONTAINER -->
+        <div class="category-section">
+            <app-category-picker (categoryId)="handleCategorySelection($event)" (onOpen)="openForm()"/>
+        </div>
+        <!-- DESCRIPTION CONTAINER-->
+        <fieldset class="form-group">
+            <label class="form-group__label" for="description">NOTE (OPTIONAL)</label>
+            <input [formControl]="descriptionControl" id="description" class="form-group__text-area" placeholder="What did you spend on?">
+        </fieldset>
+    </div>
+
+    <!-- CARD FOOTER CONTAINER -->
+    <footer class="transaction-card__footer">
+        <button (click)="saveTransaction()" [disabled]="amountControl.invalid" type="submit" class="btn-submit">
+            <i class="bi bi-check-lg"></i>
+            @if (isEditing()) {
+                <span>Save Changes</span>
+            } @else {
+                <span>Save Transaction</span>
+            }
+        </button>
+    </footer>
+
+</section>
+

@@ -1,0 +1,33 @@
+<nav [class.navbar-scrolled]="isScrolled()"
+    class="container-fluid container-main d-flex justify-content-around align-items-center w-100">
+    <app-icon />
+    <div class="container-links">
+        <ul class="list-unstyled">
+            <li><a [routerLink]="['/']" fragment="hero">Hero</a></li>
+            <li><a [routerLink]="['/']" fragment="features">Features</a></li>
+            <li><a [routerLink]="['/']" fragment="learn-more">Learn More</a></li>
+        </ul>
+    </div>
+    <div class="container-buttons d-flex">
+        <button class="btn btn-login" routerLink="/sign-in">Log-in</button>
+        <button class="btn btn-start" routerLink="/sign-up"> <span><i class="bi bi-arrow-right"></i></span>Start for
+            free</button>
+        <button class="btn-menu" (click)="toggleMenu()"><i class="bi bi-list"></i></button>
+    </div>
+
+    <!--Sidebar-->
+    @if(isSideBarOpened()){
+    <div class="menu-backdrop" (click)="toggleMenu()"></div>
+    }
+</nav>
+<aside class="container-sidebar" [class.active]="isSideBarOpened()">
+    <h2>Menu</h2>
+    <ul class="list-unstyled">
+        <li><a [routerLink]="['/']" fragment="hero">Hero</a></li>
+        <li><a [routerLink]="['/']" fragment="features">Features</a></li>
+        <li><a [routerLink]="['/']" fragment="learn-more">Learn More</a></li>
+        <div class="underline"></div>
+        <li><button class="btn btn-login" routerLink="/sign-in">Log In</button></li>
+        <li><button class="btn btn-start" routerLink="/sign-up">Start for free</button></li>
+    </ul>
+</aside>

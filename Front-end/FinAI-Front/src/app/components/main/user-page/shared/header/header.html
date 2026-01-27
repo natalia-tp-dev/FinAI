@@ -1,0 +1,10 @@
+<header class="container-main">
+    <div class="container-title">
+        <h2>{{title()}}</h2>
+        <span>{{subtitle()}}</span>
+    </div>
+    <div class="container-buttons">
+        <button type="button" (click)="signOut()" class="btn sign-out"><span>Sign out</span><i class="bi bi-box-arrow-in-right"></i></button>
+        <button type="button" (click)="openCard()" class="btn new-transaction"><span>New transaction</span><i class="bi bi-plus-lg"></i></button>
+    </div>
+</header>

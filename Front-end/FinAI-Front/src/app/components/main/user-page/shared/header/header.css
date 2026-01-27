@@ -1,0 +1,65 @@
+.container-main {
+    height: auto;
+    border-bottom: 2px solid var(--bg-clear);
+    padding: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg);
+    border-radius: 0 0 1rem;
+}
+
+.container-title h2 {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.container-title span {
+    color: var(--text-clear);
+    font-size: 0.8rem;
+}
+
+.container-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn span {
+    display: none;
+}
+
+.btn i {
+    font-size: 1.6rem;
+}
+
+.sign-out {
+    color: var(--bg);
+    background-color: rgb(255, 95, 95);
+    border-radius: 1rem;
+    text-align: center;
+    padding: 0rem 0.7rem;
+}
+
+.new-transaction {
+    background-color: var(--text-titles);
+    border-radius: 1rem;
+    margin-right: 1rem;
+    color: var(--bg);
+}
+
+
+/*Tablets and desktop*/
+@media (min-width: 768px) {
+    .btn {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: 600;
+    }
+
+    .btn span {
+        display: block;
+        text-align: center;
+    }
+}

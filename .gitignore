@@ -1,0 +1,40 @@
+# ---- IDEs & OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+*.swap
+
+# ---- SECURITY ----
+**/.env
+**/.env.local
+**/.env.development
+**/.env.production
+**/mysql_data_v2/
+
+# ---- NODE / ANGULAR / EXPRESS (Gateway) ----
+**/node_modules/
+**/dist/
+**/.angular/
+**/npm-debug.log*
+**/yarn-error.log*
+
+# ---- JAVA / SPRING BOOT (Payment Service) ----
+**/target/
+**/.gradle/
+**/build/
+*.class
+*.jar
+*.war
+!**/src/**/main/resources/*
+
+# ---- PYTHON (AI Service) ----
+**/venv/
+**/env/
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]
+
+# ---- DOCKER ----
+.docker/

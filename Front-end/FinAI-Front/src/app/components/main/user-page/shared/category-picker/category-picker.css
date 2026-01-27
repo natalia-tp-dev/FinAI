@@ -1,0 +1,94 @@
+.container-main {
+    padding: 1rem;
+    position: relative;
+}
+
+.container-title {
+    position: relative;
+    max-width: 28rem;
+}
+
+.container-title h6 {
+    color: var(--text-clear);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.container-title button {
+    position: absolute;
+    right: 0;
+    top: -0.2rem;
+    background-color: var(--bg-transparent);
+    color: var(--text-titles-secundary);
+    padding: 0rem 1rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    transition: all 0.5s ease-in-out;
+}
+
+.container-title button:hover {
+    background-color: var(--text-titles-secundary);
+    color: var(--bg);
+}
+
+.container-title button span {
+    font-size: 0.9rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.container-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    padding: 0.5rem;
+    place-content: center;
+    max-width: 30rem;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+}
+
+
+.icon-btn.active {
+    border-color: #1e293b;
+}
+
+.icon-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color); 
+}
+
+.icon-circle i {
+    font-size: 1.2rem;
+    color: var(--color); 
+}
+
+.icon-label {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.container-buttons button span {
+    font-size: 0.7rem;
+}

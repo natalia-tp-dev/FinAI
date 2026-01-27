@@ -1,0 +1,60 @@
+<div class="sign-in-container">
+        <div class="container-icon" routerLink="/">
+            <div class="wrapper-icon" data-aos="zoom-in-up">
+                <app-icon />
+            </div>
+        </div>
+        <div class="sign-in-card" data-aos="zoom-in-up">
+            <div class="container-header">
+                <header>Welcome Back!</header>
+                <h6>Complete your information below</h6>
+            </div>
+            <div class="container-form">
+                <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+                    
+                    <!-- Email input group -->
+                    <div class="input-group">
+                        <label for="">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-envelope-at"></i>
+                            <input formControlName="email" type="email" placeholder="youremail@gmail.com">
+                        </div>
+                    </div>
+
+                    <!-- Password input group -->
+                    <div class="input-group">
+                        <label for="">Password</label>
+                        <div class="input-wrapper">
+                            <i class="bi bi-lock"></i>
+                            <i class="bi bi-eye"></i>
+                            <input formControlName="password" type="password" placeholder="Your Password">
+                        </div>
+                    </div>
+                    <button [disabled]="signInForm.invalid" class="btn" type="submit">Sign In</button>
+                </form>
+            </div>
+            <div class="divider">
+                <span>or log in with</span>
+            </div>
+            <div class="container-buttons-social">
+                <div class="wrapper-google">
+                    <button class="google btn">
+                        <i class="bi bi-google"></i>
+                        <span>Google</span>
+                    </button>
+                </div>
+                <div class="wrapper-github">
+                    <button class="github btn">
+                        <i class="bi bi-github"></i>
+                        <span>Github</span>
+                    </button>
+                </div>
+            </div>
+            <div class="divider">
+            </div>
+            <footer>
+                <span>Don't you have an account?</span>
+                <a routerLink="/sign-up"> Sign up</a>
+            </footer>
+        </div>
+    </div>

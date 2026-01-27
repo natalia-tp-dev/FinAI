@@ -1,0 +1,246 @@
+.dashboard-container {
+    background-color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+.empty-dashboard {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 2px dashed #e2e8f0;
+    margin-top: 1rem;
+}
+
+.empty-content {
+    text-align: center;
+    padding: 2rem;
+    max-width: 450px;
+}
+
+.illustration {
+    position: relative;
+    font-size: 4rem;
+    color: #3b82f6;
+    margin-bottom: 1.5rem;
+}
+
+.blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.4; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+}
+
+.empty-content h2 {
+    color: #1e293b;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.empty-content p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.btn-add {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-add:hover {
+    background: #334155;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.container-upper-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.card {
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.container-content h6 {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+}
+
+.container-content h5 {
+    color: #1e293b;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.trend {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.trend.up {
+    color: #22c55e;
+}
+
+.trend.down {
+    color: #ef4444;
+}
+
+.container-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+}
+
+.container-icon.wallet {
+    background: #f0f4ff;
+    color: #3b82f6;
+}
+
+.container-icon.income {
+    background: #f0fdf4;
+    color: #22c55e;
+}
+
+.container-icon.expense {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.container-lower-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.25rem;
+    align-items: start;
+    width: 100%;
+}
+
+.glass-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header h2 {
+    color: #1e293b;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.chart-wrapper {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    min-height: 0;
+}
+
+.pie-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 450px;
+}
+
+.pie-card h3 {
+    width: 100%;
+    font-size: 1.25rem;
+    color: #1e293b;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.pie-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 280px;
+    margin: auto;
+}
+
+@media (max-width: 1100px) {
+    .container-lower-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .glass-card, .pie-card {
+        height: auto;
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard-container {
+        padding: 1rem;
+    }
+    
+    .container-upper-content {
+        grid-template-columns: 1fr;
+    }
+
+    .container-content h5 {
+        font-size: 1.5rem;
+    }
+}

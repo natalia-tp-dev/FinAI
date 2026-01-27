@@ -1,0 +1,25 @@
+<!-- Category section -->
+<section class="container-main">
+    <div class="container-title">
+        <h6>CATEGORY</h6>
+        <button (click)="openCardCategory()" class="btn" type="button"><i class="bi bi-plus"></i><span>New</span></button>
+    </div>
+    <div class="container-buttons">
+        @for(item of categories(); track item.id) {
+            <button
+                type="button"
+                class="icon-btn"
+                [class.active]="selectedCategoryId() === item.id"
+                (click)="selectCategory(item)"
+                [style.--bg-color]="item.background_color"
+                [style.--color]="item.color"
+                >
+                <div class="icon-circle">
+                    <i class="bi" [ngClass]="item.icon"></i>
+                </div>
+                <span class="icon-label">{{item.name}}</span>
+            </button>
+        }
+    </div>
+</section>
+

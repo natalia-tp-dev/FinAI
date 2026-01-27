@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+:root {
+    --bg: #ffffff;
+    --bg-clear-transparent: #e2e0e0a8;
+    --bg-gradient: #4cff3cb7; 
+    --bg-gradient2: #7dcadda6;
+    --bg-clear: #f1f1f1;
+    --bg-green-clear: #d4fad7;
+    --bg-transparent:#b7fcb0; 
+    --text-clear: #504f4f;
+    --text-clearer: #969696;
+    --text-default: #000000;
+    --text-titles: #23e04c;
+    --text-titles-secundary: #008528;;
+    --shadow: #cacaca;
+}
+
+.dark {
+    --bg: #222222;
+    --text-default: #ffffff;
+    --text-titles: #00e9f1;
+    --text-titles-secundary: #3bb7ff;
+    --bg-btn: #0047a3;
+}
+
+body {
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
