@@ -27,8 +27,8 @@ app.use('/api/ai', goalRoutes)
 app.use('/api/reports', reportRoutes)
 app.use('/api/payments', paymentRoutes)
 
-const PORT = process.env.GATEWAY_PORT
+const PORT = process.env.PORT || process.env.GATEWAY_PORT || 3000
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log('Server running at http://127.0.0.1:'+PORT);
 })

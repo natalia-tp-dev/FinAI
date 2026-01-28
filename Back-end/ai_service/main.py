@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.config.database import engine, Base
 from src.routes.ai_routes import ai_router
+import os
 
 Base.metadata.create_all(bind=engine)
 
@@ -27,4 +28,4 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(app, host='0.0.0.0', port=os.getenv('PORT'))
