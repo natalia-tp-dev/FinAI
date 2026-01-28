@@ -16,8 +16,7 @@ export class PaymentService {
   private http = inject(HttpClient);
 
   /** Base payment API URL */
-  private URL = environment.paymentUrl;
-  private url = environment.gateWayUrl
+  private URL = environment.gateWayUrl;
 
   /**
    * Generates a payment request for the selected plan.
@@ -27,11 +26,12 @@ export class PaymentService {
   generatePayment(data: PaymentData): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(
       `${this.URL}/pay`,
-      data
+      data,
+      {withCredentials: true}
     );
   }
 
   initializeUser(): Observable<SuccessResponse> {
-    return this.http.post<SuccessResponse>(`${this.url}/payments/create-free-account`, {}, {withCredentials: true})
+    return this.http.post<SuccessResponse>(`${this.URL}/payments/create-free-account`, {}, {withCredentials: true})
   }
 }

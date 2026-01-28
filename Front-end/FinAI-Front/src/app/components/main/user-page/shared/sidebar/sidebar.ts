@@ -43,3 +43,4 @@ export class Sidebar implements OnInit {
     this.uiService.updateHeader(title, subtitle)
   }
 }
+

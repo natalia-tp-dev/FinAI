@@ -53,7 +53,6 @@ export class Pricing implements OnInit{
 
         const payload:PaymentData = {
           subscriptionId: data.subscriptionID,
-          userId: currentId,
           plan_type: planType
         }
         //Payment service from payment-service-container

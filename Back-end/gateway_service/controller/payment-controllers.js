@@ -1,5 +1,25 @@
 const axios = require('axios')
 
+const payUserPlan = async (req, res) => {
+    try {
+        const { id } = req.user
+        const { subscriptionId, plan_type } = req.body
+        
+        const payload = {
+            userId: id,
+            subscriptionId,
+            plan_type
+        }
+
+        await axios.post(`${PAYMENT_URL}/pay`, payload)
+
+        res.status(200).json({message: 'Your payment has been succesfully processed'})
+        
+    } catch (error) {
+        res.status(500).json({error: 'Internal Server Error'})
+    }
+}
+
 const createUserPlan = async (req, res) => {
     try {
         const { id } = req.user
@@ -18,4 +38,4 @@ const createUserPlan = async (req, res) => {
     }
 }
 
-module.exports = {createUserPlan}
+module.exports = {createUserPlan, payUserPlan}
