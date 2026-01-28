@@ -5,4 +5,3 @@ PyMySQL==1.1.1
 cryptography
 python-dotenv==1.0.1
 google-genai==0.6.0
-scipy==1.13.1
