@@ -66,7 +66,6 @@
         },
         "serve": {
           "options": {
-            "proxyConfig": "proxy.conf.json",
             "hmr": true,
             "servePath": "/"
           },
