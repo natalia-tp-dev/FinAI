@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 import { CategoryData } from '../../interfaces/data/category-data';
 import { SuccessResponse } from '../../interfaces/response/success-response';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

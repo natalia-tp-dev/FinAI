@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
+import { Observable, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { SignUpData } from '../../interfaces/data/sign-up-data';
 import { SuccessResponse } from '../../interfaces/response/success-response';
 import { ProfileData } from '../../interfaces/data/profile-data';

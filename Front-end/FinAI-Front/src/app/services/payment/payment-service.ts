@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { PaymentData } from '../../interfaces/data/payment-data';
 import { PaymentResponse } from '../../interfaces/response/payment-response';
 import { SuccessResponse } from '../../interfaces/response/success-response';

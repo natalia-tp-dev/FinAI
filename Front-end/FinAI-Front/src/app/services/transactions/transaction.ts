@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Transaction, TransactionData, TransactionResponse } from '../../interfaces/data/transaction-data';
 import { Observable, tap } from 'rxjs';
 import { SuccessResponse } from '../../interfaces/response/success-response';
