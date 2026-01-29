@@ -28,9 +28,7 @@ export class Pricing implements OnInit {
     //Updating user id with getId method
     this.updateId()
     //Rendering paypal buttons
-    setTimeout(() => {
-      this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'PREMIUM');
-    }, 2000);
+    this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'PREMIUM');
   }
 
   private loadUserInfo() {
