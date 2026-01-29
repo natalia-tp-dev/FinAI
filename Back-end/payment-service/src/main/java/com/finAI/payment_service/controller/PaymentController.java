@@ -30,7 +30,7 @@ import com.finAI.payment_service.service.UserStatusDTO;
 @RestController
 @RequestMapping("/api/payments")
 @CrossOrigin(
-        origins = "http://localhost:4200",
+        origins = "*",
         allowedHeaders = "*"
 )
 public class PaymentController {

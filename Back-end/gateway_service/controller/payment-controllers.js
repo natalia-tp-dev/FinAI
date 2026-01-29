@@ -11,7 +11,7 @@ const payUserPlan = async (req, res) => {
             plan_type
         }
 
-        await axios.post(`${PAYMENT_URL}/pay`, payload)
+        await axios.post(`${PAYMENT_URL}/api/payments/pay`, payload)
 
         res.status(200).json({message: 'Your payment has been succesfully processed'})
         
@@ -28,7 +28,7 @@ const createUserPlan = async (req, res) => {
             return res.status(400).json({error: 'No user id detected'})
         }
         try {
-            await axios.post(`${process.env.PAYMENT_URL}/create-free-plan`, {id: id})
+            await axios.post(`${process.env.PAYMENT_URL}/api/payments/create-free-plan`, {id: id})
         } catch (error) {
             console.error(error)
         }

@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
         const sql = 'INSERT INTO users (id, full_name, email, password_hash) VALUES (UUID_TO_BIN(?),?,?,?)';
         await pool.execute(sql, [userUuid, full_name, email, hashedPassword]);
         try {
-            await axios.post(`${process.env.PAYMENT_URL}/initialize`, {
+            await axios.post(`${process.env.PAYMENT_URL}/api/payments/initialize`, {
                 id: userUuid
             })
         } catch (paymentError) {
