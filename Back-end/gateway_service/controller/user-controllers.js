@@ -85,6 +85,7 @@ const signIn = async (req, res) => {
             message: 'Login successful',
         });
     } catch (error) {
+        console.error(error)
         res.status(500).json({
             error: "Internal Service Error"
         })

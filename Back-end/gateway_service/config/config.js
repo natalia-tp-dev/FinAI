@@ -12,7 +12,10 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0,
     connectTimeout: 10000,
-    idleTimeout: 60000 
+    idleTimeout: 60000,
+    ssl: {
+        rejectUnauthorized: false
+    } 
 });
 
 //Handle connection errors
