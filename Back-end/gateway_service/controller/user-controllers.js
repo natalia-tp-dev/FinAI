@@ -110,6 +110,7 @@ const profileInfo = async (req, res) => {
             isLogged
         }) 
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             error: 'An error ocurred while trying to get the profile',
             status: 500
