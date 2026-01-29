@@ -25,7 +25,7 @@ export class PaymentService {
    */
   generatePayment(data: PaymentData): Observable<PaymentResponse> {
     return this.http.post<PaymentResponse>(
-      `${this.URL}/pay`,
+      `${this.URL}/payments/pay`,
       data,
       {withCredentials: true}
     );
