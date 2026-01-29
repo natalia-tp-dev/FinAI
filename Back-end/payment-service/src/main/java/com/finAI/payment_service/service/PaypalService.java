@@ -40,7 +40,7 @@ public class PaypalService {
     /**
      * Base URL for the PayPal Sandbox API.
      */
-    @Value("${paypal.url:https://api-m.sandbox.paypal.com") 
+    @Value("${paypal.url:https://api-m.sandbox.paypal.com}") 
     private String paypalURL;
     /**
      * Requests an OAuth access token from PayPal.
