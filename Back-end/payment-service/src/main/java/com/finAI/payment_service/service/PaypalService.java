@@ -18,8 +18,8 @@ import org.springframework.web.client.RestTemplate;
  * <p>
  * This service handles:
  * <ul>
- *   <li>OAuth authentication with PayPal</li>
- *   <li>Subscription status validation</li>
+ * <li>OAuth authentication with PayPal</li>
+ * <li>Subscription status validation</li>
  * </ul>
  */
 @Service
@@ -40,8 +40,9 @@ public class PaypalService {
     /**
      * Base URL for the PayPal Sandbox API.
      */
-    @Value("${paypal.url:https://api-m.sandbox.paypal.com}") 
+    @Value("${paypal.url:https://api-m.sandbox.paypal.com}")
     private String paypalURL;
+
     /**
      * Requests an OAuth access token from PayPal.
      * <p>
@@ -61,13 +62,13 @@ public class PaypalService {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("grant_type", "client_credentials");
 
-        HttpEntity<MultiValueMap<String, String>> request =
-            new HttpEntity<>(formData, headers);
+        HttpEntity<MultiValueMap<String, String>> request
+                = new HttpEntity<>(formData, headers);
 
         ResponseEntity<Map> response = restTemplate.postForEntity(
-            paypalURL + "/v1/oauth2/token",
-            request,
-            Map.class
+                paypalURL + "/v1/oauth2/token",
+                request,
+                Map.class
         );
 
         return (String) response.getBody().get("access_token");
@@ -76,11 +77,12 @@ public class PaypalService {
     /**
      * Validates the status of a PayPal subscription.
      * <p>
-     * A subscription is considered valid if its status is
-     * {@code ACTIVE} or {@code APPROVED}.
+     * A subscription is considered valid if its status is {@code ACTIVE} or
+     * {@code APPROVED}.
      *
      * @param subscriptionId PayPal subscription identifier
-     * @return {@code true} if the subscription is valid, otherwise {@code false}
+     * @return {@code true} if the subscription is valid, otherwise
+     * {@code false}
      */
     public boolean checkSubscription(String subscriptionId) {
 
@@ -93,11 +95,13 @@ public class PaypalService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             ResponseEntity<Map> response = restTemplate.exchange(
-                paypalURL + "/v1/billing/subscriptions/" + subscriptionId,
-                HttpMethod.GET,
-                entity,
-                Map.class
+                    paypalURL + "/v1/billing/subscriptions/" + subscriptionId,
+                    HttpMethod.GET,
+                    entity,
+                    Map.class
             );
+
+            System.out.println("Status recibido de PayPal para " + subscriptionId + ": " + response.getBody().get("status"));
 
             String status = (String) response.getBody().get("status");
 
