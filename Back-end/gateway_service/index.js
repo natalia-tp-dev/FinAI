@@ -10,7 +10,7 @@ const goalRoutes = require('./routes/goals-routes')
 const reportRoutes = require('./routes/report-routes')
 const paymentRoutes = require('./routes/payment-routes')
 
-MAIN_ROUTE = process.env.MAIN_ROUTE
+MAIN_ROUTE = process.env.MAIN_ROUTE || 'https://finai-web-adtd.onrender.com'
 
 app.use(cors({
     origin: MAIN_ROUTE,
