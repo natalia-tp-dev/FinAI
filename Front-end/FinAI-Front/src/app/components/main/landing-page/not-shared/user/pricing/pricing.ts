@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { PaymentService } from '../../../../../../services/payment/payment-service';
-import { environment } from '../../../../../../../environments/environment';
+import { environment } from '../../../../../../../environments/environment.development';
 import { PaymentData } from '../../../../../../interfaces/data/payment-data';
 import { Router } from '@angular/router';
 import { User } from '../../../../../../services/user/user';
