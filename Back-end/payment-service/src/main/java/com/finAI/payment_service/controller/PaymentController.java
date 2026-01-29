@@ -20,7 +20,6 @@ import com.finAI.payment_service.service.PaypalService;
 import com.finAI.payment_service.service.UserDTO;
 import com.finAI.payment_service.service.UserStatusDTO;
 
-
 /**
  * REST controller responsible for handling payment-related operations.
  * <p>
@@ -63,26 +62,25 @@ public class PaymentController {
     @PostMapping("/initialize")
     public ResponseEntity<?> initializeUser(@RequestBody UserDTO registrationData) {
         try {
-            UUID userUuid =  UUID.fromString(registrationData.getId());
-            
-    
+            UUID userUuid = UUID.fromString(registrationData.getId());
+
             if (userRepository.existsById(userUuid)) {
                 return ResponseEntity.ok(Map.of("message", "User already initialized"));
             }
-    
+
             User newUser = new User();
             newUser.setId(userUuid);
-            
+
             newUser.setHas_selected_plan(false);
             newUser.setIs_in_trial(false);
             newUser.setPlan_type("FREE");
             newUser.setSubscriptionStatus("INACTIVE");
-    
+
             userRepository.save(newUser);
-    
+
             return ResponseEntity.status(201).body(Map.of("message", "User succesfully created at payment db"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error:","Invalid ID format"));
+            return ResponseEntity.badRequest().body(Map.of("error:", "Invalid ID format"));
         }
     }
 
@@ -92,23 +90,21 @@ public class PaymentController {
             UUID userUuid = UUID.fromString(freePlanData.getId());
 
             return userRepository.findById(userUuid)
-                .map(user -> {
+                    .map(user -> {
 
-                    user.setHas_selected_plan(true);
-                    user.setPlan_type("FREE");
-                    user.setSubscriptionStatus("INACTIVE");
-                    
-                    userRepository.save(user); 
-                    
-                    return ResponseEntity.status(201).body(Map.of("message", "Free user plan successfully updated"));
-                })
-                .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "User not found")));
+                        user.setHas_selected_plan(true);
+                        user.setPlan_type("FREE");
+                        user.setSubscriptionStatus("INACTIVE");
+
+                        userRepository.save(user);
+
+                        return ResponseEntity.status(201).body(Map.of("message", "Free user plan successfully updated"));
+                    })
+                    .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "User not found")));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error:","Invalid ID format"));
+            return ResponseEntity.badRequest().body(Map.of("error:", "Invalid ID format"));
         }
     }
-    
-    
 
     @GetMapping("/status/{id}")
     public ResponseEntity<?> getStatus(@PathVariable String id) {
@@ -158,22 +154,18 @@ public class PaymentController {
         String userIdStr = request.get("userId");
         String planType = request.get("plan_type");
 
-        if (subscriptionId == null || userIdStr == null || planType == null) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("error", "Missing data")
-            );
-        }
-
-        boolean isCaptured = paypalService.checkSubscription(subscriptionId);
-
-        if (!isCaptured) {
-            return ResponseEntity.status(400).body(
-                    Map.of("error", "Paypal client error")
-            );
-        }
+        System.out.println("DEBUG: Recibido subId=" + subscriptionId + " userId=" + userIdStr);
 
         try {
             UUID uuid = UUID.fromString(userIdStr);
+            boolean isCaptured = paypalService.checkSubscription(subscriptionId);
+
+            if (!isCaptured) {
+                return ResponseEntity.status(400).body(
+                        Map.of("error", "Paypal client error")
+                );
+            }
+
             return userRepository.findById(uuid)
                     .map(user -> {
 
