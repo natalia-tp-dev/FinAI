@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { PaymentService } from '../../../../../../services/payment/payment-service';
-import { environment } from '../../../../../../../environments/environment.development';
+import { environment } from '../../../../../../../environments/environment';
 import { PaymentData } from '../../../../../../interfaces/data/payment-data';
 import { Router } from '@angular/router';
 import { User } from '../../../../../../services/user/user';
@@ -21,7 +21,7 @@ export class Pricing implements OnInit{
   private router = inject(Router)
   private alertService = inject(Toast)
   private PLAN_PREMIUM_ID = environment.PLAN_PREMIUM_ID
-  private PLAN_ULTIMATE_ID = environment.PLAN_ULTIMATE_ID
+
 
   ngOnInit(): void {
     this.loadUserInfo()
@@ -29,7 +29,6 @@ export class Pricing implements OnInit{
     this.updateId()
     //Rendering paypal buttons
     this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'premium')
-    this.renderPaypalButton(this.PLAN_ULTIMATE_ID, '#paypal-button-ultimate', 'ultimate')
   }
   
   private loadUserInfo() {
