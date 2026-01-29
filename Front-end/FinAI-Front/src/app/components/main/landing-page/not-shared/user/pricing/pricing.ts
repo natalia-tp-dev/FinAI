@@ -13,7 +13,7 @@ declare var paypal: any
   templateUrl: './pricing.html',
   styleUrl: './pricing.css',
 })
-export class Pricing implements OnInit{
+export class Pricing implements OnInit {
 
   private payment = inject(PaymentService)
   private userService = inject(User)
@@ -28,30 +28,32 @@ export class Pricing implements OnInit{
     //Updating user id with getId method
     this.updateId()
     //Rendering paypal buttons
-    this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'PREMIUM')
+    setTimeout(() => {
+      this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'PREMIUM');
+    }, 2000);
   }
-  
+
   private loadUserInfo() {
     this.userService.getProfile().subscribe()
   }
 
   private updateId() {
-    this.userID.set(this.userService.userId()) 
+    this.userID.set(this.userService.userId())
   }
 
-  private renderPaypalButton(planId: string, containerId: string, planType: string, ) {
+  private renderPaypalButton(planId: string, containerId: string, planType: string,) {
     //Creating subscription and payment with paypal buttons
     paypal.Buttons({
       createSubscription: (data: any, actions: any) => {
-        console.log(planId+' '+planType);
+        console.log(planId + ' ' + planType);
         return actions.subscription.create({
           'plan_id': planId
         })
       },
-      onApprove: (data:any, actions:any) => {
-        const currentId =  this.userService.userId()
+      onApprove: (data: any, actions: any) => {
+        const currentId = this.userService.userId()
 
-        const payload:PaymentData = {
+        const payload: PaymentData = {
           subscriptionId: data.subscriptionID,
           plan_type: planType
         }
