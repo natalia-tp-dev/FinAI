@@ -29,6 +29,16 @@ app.use('/api/payments', paymentRoutes)
 
 const PORT = process.env.PORT || process.env.GATEWAY_PORT || 3000
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log('Server running at http://127.0.0.1:'+PORT);
-})
+const startServer = async () => {
+    try {
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`🚀 Gateway listo en puerto ${PORT}`);
+            console.log(`Configurado para origen: ${MAIN_ROUTE}`);
+        });
+    } catch (error) {
+        console.error('❌ Error fatal al iniciar el servidor:', error);
+        process.exit(1);
+    }
+};
+
+startServer();

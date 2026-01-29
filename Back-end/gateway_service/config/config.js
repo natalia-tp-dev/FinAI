@@ -31,7 +31,7 @@ const gracefulShutdown = async () => {
     console.log('Closing pool connections');
     await pool.end()
     console.log('Pool closed, exiting...');
-    process.exit(0)
+    //process.exit(0)
 }
 
 process.on('SIGINT', gracefulShutdown)
