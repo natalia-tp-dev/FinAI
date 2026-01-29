@@ -28,7 +28,7 @@ export class Pricing implements OnInit{
     //Updating user id with getId method
     this.updateId()
     //Rendering paypal buttons
-    this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'premium')
+    this.renderPaypalButton(this.PLAN_PREMIUM_ID, '#paypal-button-premium', 'PREMIUM')
   }
   
   private loadUserInfo() {
@@ -43,6 +43,7 @@ export class Pricing implements OnInit{
     //Creating subscription and payment with paypal buttons
     paypal.Buttons({
       createSubscription: (data: any, actions: any) => {
+        console.log(planId+' '+planType);
         return actions.subscription.create({
           'plan_id': planId
         })
