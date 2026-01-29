@@ -39,8 +39,8 @@ const signUp = async (req, res) => {
         //Sending token via cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, 
-            sameSite: 'lax',
+            secure: true, 
+            sameSite: 'none',
             maxAge: 3600000,
             path: '/'
         });
@@ -77,9 +77,10 @@ const signIn = async (req, res) => {
         //Sending token via cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false, 
-            sameSite: 'lax',
-            maxAge: 96000000
+            secure: true, 
+            sameSite: 'none',
+            maxAge: 96000000,
+            path: '/'
         });
         return res.status(200).json({
             message: 'Login successful',
