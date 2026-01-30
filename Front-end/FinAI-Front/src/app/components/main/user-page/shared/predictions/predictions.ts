@@ -21,6 +21,7 @@ export class Predictions {
   selectedReport = signal<IndividualReportResponse | null>(null)
   
   constructor() {
+    
     effect(() => {
       const userId = this.userService.userId()
 
@@ -40,9 +41,11 @@ export class Predictions {
     this.reportService.getReport(goalId).subscribe({
       next: data => {
         this.selectedReport.set(data)
+        console.log(this.selectedReport);
       },
       error: err => {
-        console.log(err.err.err);
+        console.log(this.selectedReport);
+        console.log(err.error.error);
       }
     })
   }
