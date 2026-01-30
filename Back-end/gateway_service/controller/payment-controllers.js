@@ -23,7 +23,7 @@ const payUserPlan = async (req, res) => {
         });
         
     } catch (error) {
-        console.error('❌ Error en payUserPlan:');
+
         if (error.response) {
             console.error('Data:', error.response.data);
             console.error('Status:', error.response.status);

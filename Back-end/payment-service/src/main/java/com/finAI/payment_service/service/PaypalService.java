@@ -90,7 +90,6 @@ public class PaypalService {
             RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
-            System.out.println(getAccessToken());
             headers.setBearerAuth(getAccessToken());
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -101,8 +100,6 @@ public class PaypalService {
                     entity,
                     Map.class
             );
-
-            System.out.println("Status recibido de PayPal para " + subscriptionId + ": " + response.getBody().get("status"));
 
             String status = (String) response.getBody().get("status");
 

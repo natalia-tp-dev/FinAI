@@ -49,7 +49,6 @@ export class Pricing implements OnInit {
         })
       },
       onApprove: (data: any, actions: any) => {
-        console.log(data.subscriptionID);
 
         const payload: PaymentData = {
           subscriptionId: data.subscriptionID,
