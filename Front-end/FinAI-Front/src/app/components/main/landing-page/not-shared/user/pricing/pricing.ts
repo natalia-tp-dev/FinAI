@@ -49,7 +49,7 @@ export class Pricing implements OnInit {
         })
       },
       onApprove: (data: any, actions: any) => {
-        const currentId = this.userService.userId()
+        console.log(data.subscriptionID);
 
         const payload: PaymentData = {
           subscriptionId: data.subscriptionID,

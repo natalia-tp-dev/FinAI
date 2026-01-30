@@ -158,8 +158,9 @@ public class PaymentController {
 
         try {
             UUID uuid = UUID.fromString(userIdStr);
+            System.out.println(uuid);
             boolean isCaptured = paypalService.checkSubscription(subscriptionId);
-
+            System.out.println(isCaptured);
             if (!isCaptured) {
                 return ResponseEntity.status(400).body(
                         Map.of("error", "Paypal client error")
