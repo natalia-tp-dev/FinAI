@@ -90,6 +90,7 @@ public class PaypalService {
             RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
+            System.out.println(getAccessToken());
             headers.setBearerAuth(getAccessToken());
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
