@@ -14,7 +14,7 @@ const getSavingGoals = async (req, res) => {
         let feasibilities = {}
 
         try {
-            const aiResponse = await axios.get(`${process.env.AI_URL}/get-feasibility`, {
+            const aiResponse = await axios.get(`${process.env.AI_URL}/ai/get-feasibility`, {
                 params: {user_uuid: user_id}
             })
             feasibilities = aiResponse.data
