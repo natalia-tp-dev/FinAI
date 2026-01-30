@@ -16,7 +16,7 @@ export class AIGoalStatefulService {
 
   generateIndividualReport( data:GoalData ): Observable<SuccessResponse> {
     this.isGenerating.set(true)
-    return this.http.post<SuccessResponse>(`${this.URL}/create-and-analyze`, data).pipe(
+    return this.http.post<SuccessResponse>(`${this.URL}/create-and-analyze`, data, {withCredentials: true}).pipe(
       tap(() => {
         this.isGenerating.set(false)
       }),
