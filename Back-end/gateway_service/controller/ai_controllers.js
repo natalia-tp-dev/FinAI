@@ -31,7 +31,7 @@ const analyze_indiviual_goal = async (req, res) => {
             recent_transactions: transactions
         }
 
-        const aiServiceResponse = await axios.post(`${process.env.AI_URL}/generate-report/${newGoal.id}`, aiPayload, {timeout: 60000})
+        const aiServiceResponse = await axios.post(`${process.env.AI_URL}/ai/generate-report/${newGoal.id}`, aiPayload, {timeout: 60000})
         res.status(200).json(aiServiceResponse.data)
 
     } catch (err) {
@@ -52,7 +52,7 @@ const get_report = async (req, res) => {
     try {
         const { goal_id } = req.params
         const { id } = req.user
-        const response = await axios.get(`${process.env.AI_URL}/get-report/${goal_id}`, { params: { user_uuid: id} })
+        const response = await axios.get(`${process.env.AI_URL}/ai/get-report/${goal_id}`, { params: { user_uuid: id} })
         res.status(200).json(response.data)
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' })
