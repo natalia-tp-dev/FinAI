@@ -98,15 +98,17 @@ const profileInfo = async (req, res) => {
         //Getting info from decoded token and sending it via response
         const { id, full_name, email, isLogged } = req.user      
         //Finding user's info from db with email and returning it in response
-        const { plan_type, has_selected_plan, is_in_trial, subscription_status } = req.payment
+        //const { plan_type, has_selected_plan, is_in_trial, subscription_status } = req.payment
         res.status(201).json({
             id,
             full_name,
             email,
+            /*
             plan_type,
             has_selected_plan,
             is_in_trial,
             subscription_status,
+            */
             isLogged
         }) 
     } catch (error) {
