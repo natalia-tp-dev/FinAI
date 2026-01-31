@@ -95,28 +95,43 @@ const signIn = async (req, res) => {
 
 const profileInfo = async (req, res) => {
     try {
-        //Getting info from decoded token and sending it via response
-        const { id, full_name, email, isLogged } = req.user      
-        //Finding user's info from db with email and returning it in response
-        //const { plan_type, has_selected_plan, is_in_trial, subscription_status } = req.payment
-        res.status(201).json({
+        // 1. Verificación de seguridad de req.user
+        if (!req.user) {
+            console.log("DEBUG: req.user es undefined");
+            return res.status(401).json({ error: 'Usuario no autenticado en request' });
+        }
+        const { id, full_name, email, isLogged } = req.user;
+
+        // 2. Verificación de seguridad de req.payment (EL POSIBLE FALLO)
+        if (!req.payment) {
+            console.log("DEBUG: req.payment es undefined. Revisar middleware getPaymentInfo.");
+            // En lugar de romper, enviamos valores por defecto o error controlado
+            return res.status(500).json({ error: 'No se pudo obtener la información de pago' });
+        }
+
+        const { plan_type, has_selected_plan, is_in_trial, subscription_status } = req.payment;
+
+        res.status(200).json({ // Cambiado a 200 (OK) en lugar de 201 (Created)
             id,
             full_name,
             email,
-            /*
             plan_type,
             has_selected_plan,
             is_in_trial,
             subscription_status,
-            */
             isLogged
-        }) 
+        });
     } catch (error) {
-        console.error(error);
+        // Forzamos un log muy visible en Render
+        console.error("********** ERROR EN PROFILE_INFO **********");
+        console.error(error.stack || error); 
+        console.error("*******************************************");
+        
         res.status(500).json({
             error: 'An error ocurred while trying to get the profile',
+            details: error.message, // Enviamos el mensaje al front para ver qué es
             status: 500
-        })
+        });
     }
 }
 
