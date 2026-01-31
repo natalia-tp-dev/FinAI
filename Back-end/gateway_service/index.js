@@ -30,34 +30,48 @@ app.use('/api/reports', reportRoutes)
 app.use('/api/payments', paymentRoutes)
 
 
-const getSpec = async (url) => {
+const getSpecs = async () => {
     try {
-        const res = await axios.get(url, { timeout: 10000 });
-        return res.data;
+        const [payRes, aiRes] = await Promise.all([
+            axios.get('https://payment-s7po.onrender.com/v3/api-docs'),
+            axios.get('https://ai-jm4p.onrender.com/openapi.json')
+        ]);
+        return { payments: payRes.data, ai: aiRes.data };
     } catch (e) {
-        console.error(`Error cargando spec de ${url}:`, e.message);
+        console.error("Error cargando specs para Scalar:", e.message);
         return null;
     }
 };
 
-app.use('/docs/payments', async (req, res, next) => {
-    const spec = await getSpec('https://payment-s7po.onrender.com/v3/api-docs');
-    if (!spec) return res.status(503).send("El servicio de Pagos está despertando, recarga en unos segundos.");
-    
-    apiReference({
-        theme: 'purple',
-        configuration: { spec: { content: spec } }
-    })(req, res, next);
-});
+app.get('/reference', async (req, res) => {
+    try {
+        const specs = await getSpecs();
+        if (!specs) return res.status(503).send("Servicios despertando en Render... Reintenta en 15 segundos.");
 
-app.use('/docs/ai', async (req, res, next) => {
-    const spec = await getSpec('https://ai-jm4p.onrender.com/openapi.json');
-    if (!spec) return res.status(503).send("El servicio de IA está despertando, recarga en unos segundos.");
-    
-    apiReference({
-        theme: 'purple',
-        configuration: { spec: { content: spec } }
-    })(req, res, next);
+        res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>FinAI API Reference</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body>
+        <script id="api-reference" data-configuration='{
+          "theme": "purple",
+          "spec": { "content": ${JSON.stringify(specs.payments)} },
+          "targets": [
+            { "label": "Payments (Java)", "content": ${JSON.stringify(specs.payments)} },
+            { "label": "AI (FastAPI)", "content": ${JSON.stringify(specs.ai)} }
+          ]
+        }'></script>
+        <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+      </body>
+    </html>
+    `);
+    } catch (e) {
+        res.status(500).send("Error interno: " + e.message);
+    }
 });
 
 const PORT = process.env.PORT || process.env.GATEWAY_PORT || 3000
