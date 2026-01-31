@@ -55,24 +55,14 @@ app.use(
     apiReference({
         theme: 'purple',
         configuration: {
-            
             spec: {
-                targets: [
-                    { label: 'Payments (Java)', url: '/api-docs/payments' },
-                    { label: 'AI (FastAPI)', url: '/api-docs/ai' }
-                ],
+                url: '/api-docs/payments', 
             },
+            targets: [
+                { label: 'Payments (Java)', url: '/api-docs/payments' },
+                { label: 'AI (FastAPI)', url: '/api-docs/ai' }
+            ],
         },
-        spec: {
-            content: {
-                openapi: '3.1.0', 
-                info: {
-                    title: 'FinAI API Gateway',
-                    version: '1.0.0',
-                },
-                servers: [{ url: 'https://gateway-l8qg.onrender.com' }] 
-            }
-        }
     })
 )
 

@@ -10,7 +10,8 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI (
     title='FinAI AI Service',
     description='Microservice to generate reports with Gemini AI',
-    version='1.0.0'
+    version='1.0.0',
+    openapi_url="/openapi.json"
 )
 
 app.add_middleware(

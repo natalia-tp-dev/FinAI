@@ -31,10 +31,7 @@ import io.swagger.v3.oas.annotations.tags.*;
 @RestController
 @Tag(name = "Payment", description = "Pro Subscriptions Mangment")
 @RequestMapping("/api/payments")
-@CrossOrigin(
-        origins = "*",
-        allowedHeaders = "*"
-)
+@CrossOrigin(origins = "https://gateway-l8qg.onrender.com", allowedHeaders = "*")
 public class PaymentController {
 
     /**
