@@ -10,7 +10,8 @@ const router = express.Router()
  * @openapi
  * /api/ai/get-saving-goals/{user_id}:
  * get:
- * tags: [Goals & AI]
+ * tags:
+ * - Goals & AI
  * summary: Get all saving goals for a user
  * parameters:
  * - in: path
@@ -18,7 +19,6 @@ const router = express.Router()
  * required: true
  * schema:
  * type: string
- * description: The unique identifier of the user
  * responses:
  * 200:
  * description: List of saving goals retrieved successfully.
@@ -31,7 +31,8 @@ router.get('/get-saving-goals/:user_id', getSavingGoals)
  * @openapi
  * /api/ai/update-amount/{goal_id}:
  * put:
- * tags: [Goals & AI]
+ * tags:
+ * - Goals & AI
  * summary: Update current saving amount
  * parameters:
  * - in: path
@@ -59,7 +60,8 @@ router.put('/update-amount/:goal_id', updateSavingAmount)
  * @openapi
  * /api/ai/update-status/{goal_id}:
  * put:
- * tags: [Goals & AI]
+ * tags:
+ * - Goals & AI
  * summary: Update goal status
  * parameters:
  * - in: path
@@ -87,9 +89,9 @@ router.put('/update-status/:goal_id', updateStatus)
  * @openapi
  * /api/ai/create-and-analyze:
  * post:
- * tags: [Goals & AI]
+ * tags:
+ * - Goals & AI
  * summary: Create a goal and trigger AI analysis
- * description: Authenticates user, checks payment info, creates a saving goal, and sends it to the AI microservice for analysis.
  * security:
  * - cookieAuth: []
  * requestBody:
@@ -112,7 +114,7 @@ router.put('/update-status/:goal_id', updateStatus)
  * 401:
  * description: Unauthorized.
  * 402:
- * description: Payment required or subscription inactive.
+ * description: Payment required.
  */
 router.post('/create-and-analyze', authenticate, getPaymentInfo, createSavingGoal, analyze_indiviual_goal)
 

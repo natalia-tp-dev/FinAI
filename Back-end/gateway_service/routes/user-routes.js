@@ -9,16 +9,16 @@ const { getPaymentInfo } = require('../middlewares/payment-middlewares/payment')
  * @openapi
  * /api/users/profile-info:
  * get:
- * tags: [Authentication & User]
- * summary: Get profile and subscription info
- * description: Returns basic user data combined with their current payment/plan status.
+ * tags:
+ * - Authentication & User
+ * summary: Get profile info
  * security:
  * - cookieAuth: []
  * responses:
  * 200:
- * description: User profile and payment data retrieved successfully.
+ * description: Success
  * 401:
- * description: Unauthorized - Valid session required.
+ * description: Unauthorized
  */
 router.get('/profile-info', authenticate, getPaymentInfo, profileInfo)
 
@@ -26,11 +26,12 @@ router.get('/profile-info', authenticate, getPaymentInfo, profileInfo)
  * @openapi
  * /api/users/health:
  * get:
- * tags: [Authentication & User]
- * summary: Gateway health check
+ * tags:
+ * - Authentication & User
+ * summary: Health check
  * responses:
  * 200:
- * description: Server is up and running.
+ * description: OK
  */
 router.get('/health', health)
 
@@ -38,30 +39,29 @@ router.get('/health', health)
  * @openapi
  * /api/users/sign-up:
  * post:
- * tags: [Authentication & User]
- * summary: Register a new user
+ * tags:
+ * - Authentication & User
+ * summary: Register user
  * requestBody:
  * required: true
  * content:
  * application/json:
  * schema:
  * type: object
- * required: [email, password, name]
+ * required:
+ * - email
+ * - password
+ * - name
  * properties:
  * email:
  * type: string
- * example: "user@example.com"
  * password:
  * type: string
- * example: "SecurePass123!"
  * name:
  * type: string
- * example: "John Doe"
  * responses:
  * 201:
- * description: User registered successfully.
- * 400:
- * description: Validation error or user already exists.
+ * description: Created
  */
 router.post('/sign-up', validateRegister, signUp)
 
@@ -69,16 +69,18 @@ router.post('/sign-up', validateRegister, signUp)
  * @openapi
  * /api/users/sign-in:
  * post:
- * tags: [Authentication & User]
- * summary: User login
- * description: Authenticates the user and sets a session cookie.
+ * tags:
+ * - Authentication & User
+ * summary: Login
  * requestBody:
  * required: true
  * content:
  * application/json:
  * schema:
  * type: object
- * required: [email, password]
+ * required:
+ * - email
+ * - password
  * properties:
  * email:
  * type: string
@@ -86,9 +88,7 @@ router.post('/sign-up', validateRegister, signUp)
  * type: string
  * responses:
  * 200:
- * description: Login successful, cookie set.
- * 401:
- * description: Invalid credentials.
+ * description: OK
  */
 router.post('/sign-in', validateLogin, signIn)
 
@@ -96,12 +96,12 @@ router.post('/sign-in', validateLogin, signIn)
  * @openapi
  * /api/users/log-out:
  * post:
- * tags: [Authentication & User]
- * summary: Log out user
- * description: Clears the authentication session cookie.
+ * tags:
+ * - Authentication & User
+ * summary: Logout
  * responses:
  * 200:
- * description: Logged out successfully.
+ * description: OK
  */
 router.post('/log-out', logOut)
 

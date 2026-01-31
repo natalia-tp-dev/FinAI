@@ -7,9 +7,9 @@ const router = express.Router()
  * @openapi
  * /api/categories/get-categories:
  * get:
- * tags: [Categories]
+ * tags:
+ * - Categories
  * summary: Get all categories
- * description: Returns a list of all available transaction categories.
  * responses:
  * 200:
  * description: List of categories retrieved successfully.
@@ -22,9 +22,9 @@ router.get('/get-categories', validateGet, getCategories)
  * @openapi
  * /api/categories/get-one-categorie:
  * get:
- * tags: [Categories]
+ * tags:
+ * - Categories
  * summary: Get a specific category
- * description: Returns the details of a single category by its identifier.
  * responses:
  * 200:
  * description: Category found.
@@ -37,9 +37,9 @@ router.get('/get-one-categorie', getCategorie)
  * @openapi
  * /api/categories/create-category:
  * post:
- * tags: [Categories]
+ * tags:
+ * - Categories
  * summary: Create a new category
- * description: Registers a new category in the system.
  * requestBody:
  * required: true
  * content:

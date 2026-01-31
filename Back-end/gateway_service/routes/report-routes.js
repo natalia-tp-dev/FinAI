@@ -7,9 +7,9 @@ const router = express.Router()
  * @openapi
  * /api/reports/get-report/{goal_id}:
  * get:
- * tags: [AI Reports]
+ * tags:
+ * - AI Reports
  * summary: Retrieve AI analysis report
- * description: Fetches the generated feasibility report and financial advice for a specific saving goal.
  * security:
  * - cookieAuth: []
  * parameters:
@@ -18,7 +18,7 @@ const router = express.Router()
  * required: true
  * schema:
  * type: integer
- * description: The ID of the goal to retrieve the report for
+ * description: The ID of the goal
  * responses:
  * 200:
  * description: AI report retrieved successfully.
@@ -34,9 +34,9 @@ const router = express.Router()
  * type: string
  * example: "Based on your spending, we recommend reducing dining out by 10%."
  * 401:
- * description: Unauthorized - Authentication required.
+ * description: Unauthorized.
  * 404:
- * description: Report not found for the specified goal.
+ * description: Report not found.
  */
 router.get('/get-report/:goal_id', authenticate, get_report)
 

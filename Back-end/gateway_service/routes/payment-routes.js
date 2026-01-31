@@ -7,9 +7,9 @@ const router = express.Router()
  * @openapi
  * /api/payments/pay:
  * post:
- * tags: [Payments & Subscriptions]
+ * tags:
+ * - Payments & Subscriptions
  * summary: Process premium subscription payment
- * description: Capture a PayPal payment and activate the premium plan for the authenticated user.
  * security:
  * - cookieAuth: []
  * requestBody:
@@ -28,10 +28,10 @@ const router = express.Router()
  * responses:
  * 200:
  * description: Payment processed and subscription activated.
- * 401:
- * description: Unauthorized - Valid session cookie required.
  * 400:
  * description: Payment capture failed at PayPal.
+ * 401:
+ * description: Unauthorized - Valid session cookie required.
  */
 router.post('/pay', authenticate, payUserPlan)
 
@@ -39,9 +39,9 @@ router.post('/pay', authenticate, payUserPlan)
  * @openapi
  * /api/payments/create-free-account:
  * post:
- * tags: [Payments & Subscriptions]
+ * tags:
+ * - Payments & Subscriptions
  * summary: Initialize free plan
- * description: Sets up a free tier account for the authenticated user without payment.
  * security:
  * - cookieAuth: []
  * responses:

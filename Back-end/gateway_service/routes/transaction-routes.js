@@ -7,7 +7,8 @@ const router = express.Router()
  * @openapi
  * /api/transactions/get-yearly-trend/{user_id}:
  * get:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: Get yearly financial trend
  * parameters:
  * - in: path
@@ -17,7 +18,7 @@ const router = express.Router()
  * type: string
  * responses:
  * 200:
- * description: Monthly income and expense trends for the year.
+ * description: Monthly income and expense trends.
  */
 router.get('/get-yearly-trend/:user_id', getYearlyTrend)
 
@@ -25,7 +26,8 @@ router.get('/get-yearly-trend/:user_id', getYearlyTrend)
  * @openapi
  * /api/transactions/get-total-balance/{user_id}:
  * get:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: Get user total balance
  * parameters:
  * - in: path
@@ -35,7 +37,7 @@ router.get('/get-yearly-trend/:user_id', getYearlyTrend)
  * type: string
  * responses:
  * 200:
- * description: Current total balance calculated from all transactions.
+ * description: Current total balance.
  */
 router.get('/get-total-balance/:user_id', getTotalBalance)
 
@@ -43,7 +45,8 @@ router.get('/get-total-balance/:user_id', getTotalBalance)
  * @openapi
  * /api/transactions/get-transactions/{user_id}:
  * get:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: List all transactions for a user
  * parameters:
  * - in: path
@@ -53,7 +56,7 @@ router.get('/get-total-balance/:user_id', getTotalBalance)
  * type: string
  * responses:
  * 200:
- * description: A list of all income and expense records.
+ * description: List of records.
  */
 router.get('/get-transactions/:user_id', getTransactions)
 
@@ -61,7 +64,8 @@ router.get('/get-transactions/:user_id', getTransactions)
  * @openapi
  * /api/transactions/get-categories-expenses/{user_id}:
  * get:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: Get expenses grouped by category
  * parameters:
  * - in: path
@@ -71,7 +75,7 @@ router.get('/get-transactions/:user_id', getTransactions)
  * type: string
  * responses:
  * 200:
- * description: Breakdown of spending per category for charts.
+ * description: Breakdown per category.
  */
 router.get('/get-categories-expenses/:user_id', getCategoryExpenses)
 
@@ -79,7 +83,8 @@ router.get('/get-categories-expenses/:user_id', getCategoryExpenses)
  * @openapi
  * /api/transactions/update-transaction/{id}:
  * put:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: Update an existing transaction
  * parameters:
  * - in: path
@@ -100,7 +105,7 @@ router.get('/get-categories-expenses/:user_id', getCategoryExpenses)
  * type: string
  * responses:
  * 200:
- * description: Transaction updated successfully.
+ * description: Updated successfully.
  */
 router.put('/update-transaction/:id', updateTransaction)
 
@@ -108,7 +113,8 @@ router.put('/update-transaction/:id', updateTransaction)
  * @openapi
  * /api/transactions/create-transaction:
  * post:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: Create a new transaction
  * requestBody:
  * required: true
@@ -116,7 +122,11 @@ router.put('/update-transaction/:id', updateTransaction)
  * application/json:
  * schema:
  * type: object
- * required: [user_id, amount, type, category_id]
+ * required:
+ * - user_id
+ * - amount
+ * - type
+ * - category_id
  * properties:
  * user_id:
  * type: string
@@ -131,7 +141,7 @@ router.put('/update-transaction/:id', updateTransaction)
  * type: string
  * responses:
  * 201:
- * description: Transaction created successfully.
+ * description: Created successfully.
  */
 router.post('/create-transaction', createTransaction)
 
@@ -139,7 +149,8 @@ router.post('/create-transaction', createTransaction)
  * @openapi
  * /api/transactions/delete-transaction/{id}:
  * delete:
- * tags: [Transactions]
+ * tags:
+ * - Transactions
  * summary: Delete a transaction
  * parameters:
  * - in: path
@@ -149,7 +160,7 @@ router.post('/create-transaction', createTransaction)
  * type: string
  * responses:
  * 200:
- * description: Transaction deleted successfully.
+ * description: Deleted successfully.
  */
 router.delete('/delete-transaction/:id', deleteTransaction)
 
