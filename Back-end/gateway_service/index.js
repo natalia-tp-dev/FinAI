@@ -70,9 +70,7 @@ app.get('/reference', async (req, res) => {
             theme: 'purple',
             // El truco es 'specs' en plural dentro de la configuración
             specs: [
-                { label: 'Gateway (Node)', content: gatewaySpec },
-                { label: 'Payments (Java)', content: specs.payments },
-                { label: 'AI (FastAPI)', content: specs.ai }
+                { label: 'Payments (Java)', content: specs.payments }
             ]
         };
 
