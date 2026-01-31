@@ -3,7 +3,6 @@ const express = require('express')
 const { apiReference } = require('@scalar/express-api-reference')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const swaggerJsdoc = require('swagger-jsdoc');
 const axios = require('axios')
 const app = express()
 const userRoutes = require('./routes/user-routes')
@@ -31,20 +30,6 @@ app.use('/api/reports', reportRoutes)
 app.use('/api/payments', paymentRoutes)
 
 
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'FinAI Gateway API',
-            version: '1.0.0',
-            description: 'Rutas principales del API Gateway',
-        },
-        servers: [{ url: 'https://gateway-l8qg.onrender.com' }],
-    },
-    apis: ['./routes/*.js'], 
-};
-
-
 const getSpecs = async () => {
     try {
         const [payRes, aiRes] = await Promise.all([
@@ -58,40 +43,37 @@ const getSpecs = async () => {
     }
 };
 
-
-const gatewaySpec = swaggerJsdoc(swaggerOptions);
-
 app.get('/reference', async (req, res) => {
     try {
-        const specs = await getSpecs(); // Esto trae Java y Python
-        if (!specs) return res.status(503).send("Servicios despertando... Reintenta.");
-
-        const config = {
-            theme: 'purple',
-            // El truco es 'specs' en plural dentro de la configuración
-            specs: [
-                { label: 'Payments (Java)', content: specs.payments }
-            ]
-        };
+        const specs = await getSpecs();
+        if (!specs) return res.status(503).send("Servicios despertando en Render... Reintenta en 15 segundos.");
 
         res.send(`
     <!DOCTYPE html>
     <html>
       <head>
-        <title>FinAI API Ecosystem</title>
+        <title>FinAI API Reference</title>
         <meta charset="utf-8" />
-        <style>body { margin: 0; }</style>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
-        <script id="api-reference" data-configuration='${JSON.stringify(config).replace(/'/g, "&apos;")}'></script>
+        <script id="api-reference" data-configuration='{
+          "theme": "purple",
+          "spec": { "content": ${JSON.stringify(specs.payments)} },
+          "targets": [
+            { "label": "Payments (Java)", "content": ${JSON.stringify(specs.payments)} },
+            { "label": "AI (FastAPI)", "content": ${JSON.stringify(specs.ai)} }
+          ]
+        }'></script>
         <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
       </body>
     </html>
     `);
     } catch (e) {
-        res.status(500).send("Error: " + e.message);
+        res.status(500).send("Error interno: " + e.message);
     }
 });
+
 const PORT = process.env.PORT || process.env.GATEWAY_PORT || 3000
 
 const startServer = async () => {
