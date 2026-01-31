@@ -12,7 +12,7 @@ const goalRoutes = require('./routes/goals-routes')
 const reportRoutes = require('./routes/report-routes')
 const paymentRoutes = require('./routes/payment-routes')
 
-MAIN_ROUTE = process.env.MAIN_ROUTE || 'https://finai-web-adtd.onrender.com'
+const MAIN_ROUTE = process.env.MAIN_ROUTE || 'https://finai-web-adtd.onrender.com'
 
 app.use(cors({
     origin: MAIN_ROUTE,
@@ -48,6 +48,10 @@ app.get('/reference', async (req, res) => {
         const specs = await getSpecs();
         if (!specs) return res.status(503).send("Servicios despertando en Render... Reintenta en 15 segundos.");
 
+        // Escapar correctamente el JSON para evitar problemas de inyección
+        const paymentsSpec = JSON.stringify(specs.payments).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+        const aiSpec = JSON.stringify(specs.ai).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+
         res.send(`
     <!DOCTYPE html>
     <html>
@@ -59,10 +63,10 @@ app.get('/reference', async (req, res) => {
       <body>
         <script id="api-reference" data-configuration='{
           "theme": "purple",
-          "spec": { "content": ${JSON.stringify(specs.payments)} },
+          "spec": { "content": ${paymentsSpec} },
           "targets": [
-            { "label": "Payments (Java)", "content": ${JSON.stringify(specs.payments)} },
-            { "label": "AI (FastAPI)", "content": ${JSON.stringify(specs.ai)} }
+            { "label": "Payments (Java)", "content": ${paymentsSpec} },
+            { "label": "AI (FastAPI)", "content": ${aiSpec} }
           ]
         }'></script>
         <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
