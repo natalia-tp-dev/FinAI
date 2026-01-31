@@ -56,14 +56,19 @@ app.use(
         theme: 'purple',
         configuration: {
             spec: {
-                url: '/api-docs/payments', 
+                url: '/api-docs/payments',
             },
             targets: [
-                { label: 'Payments (Java)', url: '/api-docs/payments' },
-                { label: 'AI (FastAPI)', url: '/api-docs/ai' }
+                {
+                    label: 'Payments (Java)',
+                    url: '/api-docs/payments',
+                },
+                {
+                    label: 'AI (FastAPI)',
+                    url: '/api-docs/ai',
+                },
             ],
-            proxy: '' 
-        }
+        },
     })
 )
 
