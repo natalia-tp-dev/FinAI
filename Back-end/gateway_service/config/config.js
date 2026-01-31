@@ -33,8 +33,8 @@ const gracefulShutdown = async () => {
     console.log('Pool closed, exiting...');
     //process.exit(0)
 }
-
+/*
 process.on('SIGINT', gracefulShutdown)
 process.on('SIGTERM', gracefulShutdown)
-
+*/
 module.exports = pool
