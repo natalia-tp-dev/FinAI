@@ -10,7 +10,7 @@ import { IndividualReportResponse } from '../../interfaces/data/ai-model';
 
 export class Reports {
   private http = inject(HttpClient)
-  private URL = `api/ai/reports`
+  private URL = `api/reports`
 
   getReport(goal_id: number): Observable<IndividualReportResponse> {
     return this.http.get<IndividualReportResponse>(`${this.URL}/get-report/${goal_id}`, {withCredentials: true})
