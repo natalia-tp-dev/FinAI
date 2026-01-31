@@ -5,6 +5,17 @@ const pool = require('../config/config')
 const { generateToken } = require('../utils/utils')
 const axios = require('axios')
 
+const health = async (req, res) => {
+    try {
+        return res.status(200).json({ 
+            status: 'OK', 
+            service: 'Gateway'
+        });
+    } catch (error) {
+        return res.status(500).json({ status: 'ERROR', details: error.message });
+    }
+}
+
 const signUp = async (req, res) => {
     try {
         //Getting user info from req body
@@ -122,15 +133,9 @@ const profileInfo = async (req, res) => {
             isLogged
         });
     } catch (error) {
-        // Forzamos un log muy visible en Render
-        console.error("********** ERROR EN PROFILE_INFO **********");
-        console.error(error.stack || error); 
-        console.error("*******************************************");
-        
         res.status(500).json({
             error: 'An error ocurred while trying to get the profile',
-            details: error.message, // Enviamos el mensaje al front para ver qué es
-            status: 500
+            details: error.message
         });
     }
 }
@@ -155,4 +160,4 @@ const logOut = async (req, res) => {
     }
 }
 
-module.exports = { signUp, signIn, profileInfo, logOut }
+module.exports = { signUp, signIn, profileInfo, logOut, health }

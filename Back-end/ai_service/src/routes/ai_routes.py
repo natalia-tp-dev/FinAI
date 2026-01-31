@@ -20,6 +20,17 @@ def get_db():
     finally:
         db.close()
 
+@ai_router.get('/health')
+async def health():
+    try:
+        return {
+            "status": "OK",
+            "service": "AI-Analysis-Service",
+            "provider": "Gemini-3-Flash"
+        }
+    except Exception as e:
+        return {"status": "ERROR", "details": str(e)}
+
 @ai_router.post('/generate-report/{goal_id}')
 async def generate_report(goal_id:int, data:IndividualReportRequest, db: Session = Depends(get_db)):
     try:
