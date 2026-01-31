@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.*;
  * payment processing using PayPal.
  */
 @RestController
-@Tag(name = "Pagos", description = "Gestión de suscripciones Pro")
+@Tag(name = "Payment", description = "Pro Subscriptions Mangment")
 @RequestMapping("/api/payments")
 @CrossOrigin(
         origins = "*",
