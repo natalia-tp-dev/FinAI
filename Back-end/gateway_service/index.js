@@ -30,46 +30,35 @@ app.use('/api/reports', reportRoutes)
 app.use('/api/payments', paymentRoutes)
 
 
-const getSpecs = async () => {
+const getSpec = async (url) => {
     try {
-        const [payRes, aiRes] = await Promise.all([
-            axios.get('https://payment-s7po.onrender.com/v3/api-docs'),
-            axios.get('https://ai-jm4p.onrender.com/openapi.json')
-        ]);
-        return { payments: payRes.data, ai: aiRes.data };
+        const res = await axios.get(url, { timeout: 10000 });
+        return res.data;
     } catch (e) {
-        console.error("Error cargando specs para Scalar:", e.message);
+        console.error(`Error cargando spec de ${url}:`, e.message);
         return null;
     }
 };
 
-app.use(
-    '/reference',
-    async (req, res, next) => {
-        const specs = await getSpecs();
-        if (!specs) return res.status(500).send("Error despertando microservicios. Reintenta en 10 segundos.");
+app.use('/docs/payments', async (req, res, next) => {
+    const spec = await getSpec('https://payment-s7po.onrender.com/v3/api-docs');
+    if (!spec) return res.status(503).send("El servicio de Pagos está despertando, recarga en unos segundos.");
+    
+    apiReference({
+        theme: 'purple',
+        configuration: { spec: { content: spec } }
+    })(req, res, next);
+});
 
-        apiReference({
-            theme: 'purple',
-            configuration: {
-                
-                spec: {
-                    content: specs.payments 
-                },
-                targets: [
-                    {
-                        label: 'Payments (Java)',
-                        content: specs.payments,
-                    },
-                    {
-                        label: 'AI (FastAPI)',
-                        content: specs.ai,
-                    },
-                ],
-            },
-        })(req, res, next);
-    }
-);
+app.use('/docs/ai', async (req, res, next) => {
+    const spec = await getSpec('https://ai-jm4p.onrender.com/openapi.json');
+    if (!spec) return res.status(503).send("El servicio de IA está despertando, recarga en unos segundos.");
+    
+    apiReference({
+        theme: 'purple',
+        configuration: { spec: { content: spec } }
+    })(req, res, next);
+});
 
 const PORT = process.env.PORT || process.env.GATEWAY_PORT || 3000
 
