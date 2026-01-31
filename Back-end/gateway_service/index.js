@@ -62,7 +62,8 @@ app.use(
                 { label: 'Payments (Java)', url: '/api-docs/payments' },
                 { label: 'AI (FastAPI)', url: '/api-docs/ai' }
             ],
-        },
+            proxy: '' 
+        }
     })
 )
 
