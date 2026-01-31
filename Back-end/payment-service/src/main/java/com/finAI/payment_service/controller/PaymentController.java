@@ -20,6 +20,8 @@ import com.finAI.payment_service.service.PaypalService;
 import com.finAI.payment_service.service.UserDTO;
 import com.finAI.payment_service.service.UserStatusDTO;
 
+import io.swagger.v3.oas.annotations.tags.*;
+
 /**
  * REST controller responsible for handling payment-related operations.
  * <p>
@@ -27,6 +29,7 @@ import com.finAI.payment_service.service.UserStatusDTO;
  * payment processing using PayPal.
  */
 @RestController
+@Tag(name = "Pagos", description = "Gestión de suscripciones Pro")
 @RequestMapping("/api/payments")
 @CrossOrigin(
         origins = "*",

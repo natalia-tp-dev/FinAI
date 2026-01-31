@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from scalar_fastapi import get_scalar_api_reference
 from src.config.database import engine, Base
 from src.routes.ai_routes import ai_router
 import os
@@ -21,6 +22,14 @@ app.add_middleware(
 )
 
 app.include_router(ai_router)
+
+@app.get("/docs", include_in_schema=False)
+async def scalar_html():
+    return get_scalar_api_reference(
+        openapi_url=app.openapi_url,
+        title=app.title,
+        theme="moon", 
+    )
 
 @app.get('/')
 def health_check():

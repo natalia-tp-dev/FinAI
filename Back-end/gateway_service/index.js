@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const cookieParser = require('cookie-parser')
+const { apiReference } = require('@scalar/express-api-reference')
 const cors = require('cors')
 const app = express()
 const userRoutes = require('./routes/user-routes')

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@scalar/express-api-reference": "^0.8.39",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
