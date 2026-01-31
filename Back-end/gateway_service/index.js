@@ -52,6 +52,7 @@ app.get('/reference', async (req, res) => {
         const paymentsSpec = JSON.stringify(specs.payments).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
         const aiSpec = JSON.stringify(specs.ai).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
 
+        console.log(aiSpec);
         res.send(`
     <!DOCTYPE html>
     <html>
