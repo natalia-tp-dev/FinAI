@@ -41,7 +41,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: process.env.GATEWAY_URL ,
+                url: process.env.GATEWAY_URL,
                 description: 'Gateway Server'
             }
         ],
@@ -53,88 +53,153 @@ const swaggerOptions = {
                     name: 'token'
                 }
             }
-        }
+        },
+        tags: [
+            { name: 'Authentication & User', description: 'User management and authentication', 'x-displayName': 'Gateway' },
+            { name: 'Categories', description: 'Category management', 'x-displayName': 'Gateway' },
+            { name: 'Transactions', description: 'Transaction operations', 'x-displayName': 'Gateway' },
+            { name: 'Goals & AI', description: 'Saving goals and AI analysis', 'x-displayName': 'Gateway' },
+            { name: 'AI Reports', description: 'AI-generated reports', 'x-displayName': 'Gateway' },
+            { name: 'Payments & Subscriptions', description: 'Payment processing', 'x-displayName': 'Gateway' }
+        ]
     },
-    apis: ['./routes/*.js'], // Lee los comentarios OpenAPI de tus rutas
+    apis: ['./routes/*.js'],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-// Endpoint para obtener el spec de este gateway
 app.get('/openapi.json', (req, res) => {
     res.json(swaggerSpec);
 });
 
-// Usa el middleware de Scalar directamente
-app.use(
-    '/reference',
-    apiReference({
-        theme: 'purple',
-        spec: {
-            content: swaggerSpec
-        },
-        metaData: {
-            title: 'FinAI API Documentation',
-            description: 'Complete API reference for FinAI services',
-            ogDescription: 'Financial AI API Documentation',
-        }
-    })
-);
-
-// Endpoint alternativo para combinar múltiples specs (opcional)
-app.get('/reference-all', async (req, res) => {
+app.use('/reference', async (req, res, next) => {
     try {
-        console.log('📡 Cargando specs externos...');
-        
         const [payRes, aiRes] = await Promise.allSettled([
             axios.get('https://payment-s7po.onrender.com/v3/api-docs', { timeout: 10000 }),
             axios.get('https://ai-jm4p.onrender.com/openapi.json', { timeout: 10000 })
         ]);
 
-        const externalSpecs = [];
-        
-        if (payRes.status === 'fulfilled') {
-            console.log('✅ Payments API cargada');
-            externalSpecs.push({
-                url: 'https://payment-s7po.onrender.com',
-                spec: payRes.value.data
-            });
-        } else {
-            console.log('⚠️ Payments API no disponible:', payRes.reason.message);
+        let paymentPaths = {};
+        let paymentComponents = {};
+        let aiPaths = {};
+        let aiComponents = {};
+
+        if (payRes.status === 'fulfilled' && payRes.value.data) {
+            const paymentData = payRes.value.data;
+            
+            if (paymentData.paths) {
+                Object.keys(paymentData.paths).forEach(path => {
+                    const methods = paymentData.paths[path];
+                    Object.keys(methods).forEach(method => {
+                        if (methods[method].tags) {
+                            methods[method].tags = methods[method].tags.map(tag => `Payment - ${tag}`);
+                        }
+                    });
+                });
+                paymentPaths = paymentData.paths;
+            }
+            
+            if (paymentData.components) {
+                paymentComponents = paymentData.components;
+            }
         }
 
-        if (aiRes.status === 'fulfilled') {
-            console.log('✅ AI API cargada');
-            externalSpecs.push({
-                url: 'https://ai-jm4p.onrender.com',
-                spec: aiRes.value.data
-            });
-        } else {
-            console.log('⚠️ AI API no disponible:', aiRes.reason.message);
+        if (aiRes.status === 'fulfilled' && aiRes.value.data) {
+            const aiData = aiRes.value.data;
+            
+            if (aiData.paths) {
+                Object.keys(aiData.paths).forEach(path => {
+                    const methods = aiData.paths[path];
+                    Object.keys(methods).forEach(method => {
+                        if (methods[method].tags) {
+                            methods[method].tags = methods[method].tags.map(tag => `AI - ${tag}`);
+                        }
+                    });
+                });
+                aiPaths = aiData.paths;
+            }
+            
+            if (aiData.components) {
+                aiComponents = aiData.components;
+            }
         }
 
-        // Combinar specs en un solo documento
+        const gatewayPaths = { ...swaggerSpec.paths };
+        Object.keys(gatewayPaths).forEach(path => {
+            const methods = gatewayPaths[path];
+            Object.keys(methods).forEach(method => {
+                if (methods[method].tags) {
+                    methods[method].tags = methods[method].tags.map(tag => `Gateway - ${tag}`);
+                }
+            });
+        });
+
         const combinedSpec = {
             openapi: '3.0.0',
             info: {
-                title: 'FinAI Complete API',
+                title: 'FinAI Complete API Documentation',
                 version: '1.0.0',
-                description: 'Documentación completa de todos los servicios de FinAI'
+                description: 'Documentación completa de todos los servicios de FinAI organizados por microservicio'
             },
             servers: [
-                { url: process.env.GATEWAY_URL || 'http://localhost:3000', description: 'Gateway' },
-                { url: 'https://payment-s7po.onrender.com', description: 'Payments Service' },
-                { url: 'https://ai-jm4p.onrender.com', description: 'AI Service' }
+                { url: process.env.GATEWAY_URL, description: 'Gateway Service' },
+                { url: 'https://payment-s7po.onrender.com', description: 'Payment Service (Java)' },
+                { url: 'https://ai-jm4p.onrender.com', description: 'AI Service (FastAPI)' }
+            ],
+            tags: [
+                { name: 'Gateway - Authentication & User', description: 'User management and authentication' },
+                { name: 'Gateway - Categories', description: 'Category management' },
+                { name: 'Gateway - Transactions', description: 'Transaction operations' },
+                { name: 'Gateway - Goals & AI', description: 'Saving goals and AI analysis' },
+                { name: 'Gateway - AI Reports', description: 'AI-generated reports' },
+                { name: 'Gateway - Payments & Subscriptions', description: 'Payment processing' },
+                { name: 'Payment - Transactions', description: 'Payment transactions' },
+                { name: 'AI - Analysis', description: 'AI analysis endpoints' },
+                { name: 'AI - Reports', description: 'Report generation' }
+            ],
+            'x-tagGroups': [
+                {
+                    name: 'Gateway',
+                    tags: [
+                        'Gateway - Authentication & User',
+                        'Gateway - Categories',
+                        'Gateway - Transactions',
+                        'Gateway - Goals & AI',
+                        'Gateway - AI Reports',
+                        'Gateway - Payments & Subscriptions'
+                    ]
+                },
+                {
+                    name: 'Payment Service',
+                    tags: [
+                        'Payment - Subscriptions',
+                        'Payment - Transactions'
+                    ]
+                },
+                {
+                    name: 'AI Service',
+                    tags: [
+                        'AI - Analysis',
+                        'AI - Reports'
+                    ]
+                }
             ],
             paths: {
-                ...swaggerSpec.paths,
-                ...(payRes.status === 'fulfilled' ? payRes.value.data.paths : {}),
-                ...(aiRes.status === 'fulfilled' ? aiRes.value.data.paths : {})
+                ...gatewayPaths,
+                ...paymentPaths,
+                ...aiPaths
             },
             components: {
-                ...swaggerSpec.components,
-                ...(payRes.status === 'fulfilled' ? payRes.value.data.components : {}),
-                ...(aiRes.status === 'fulfilled' ? aiRes.value.data.components : {})
+                securitySchemes: {
+                    ...swaggerSpec.components?.securitySchemes,
+                    ...paymentComponents?.securitySchemes,
+                    ...aiComponents?.securitySchemes
+                },
+                schemas: {
+                    ...swaggerSpec.components?.schemas,
+                    ...paymentComponents?.schemas,
+                    ...aiComponents?.schemas
+                }
             }
         };
 
@@ -144,13 +209,23 @@ app.get('/reference-all', async (req, res) => {
                 content: combinedSpec
             },
             metaData: {
-                title: 'FinAI Complete API Documentation',
+                title: 'FinAI API Documentation',
+                description: 'Complete API reference for all FinAI services',
             }
-        })(req, res);
+        })(req, res, next);
 
     } catch (e) {
-        console.error('❌ Error:', e.message);
-        res.status(500).send('Error cargando documentación completa');
+        console.error('Error:', e.message);
+        
+        return apiReference({
+            theme: 'purple',
+            spec: {
+                content: swaggerSpec
+            },
+            metaData: {
+                title: 'FinAI Gateway API Documentation',
+            }
+        })(req, res, next);
     }
 });
 
@@ -161,6 +236,7 @@ const startServer = async () => {
         app.listen(PORT, '0.0.0.0', () => {
             console.log(`Gateway ready on port ${PORT}`);
             console.log(`Configured for origin: ${MAIN_ROUTE}`);
+            console.log(`📚 Complete API Docs: ${process.env.GATEWAY_URL}/reference`);
         });
     } catch (error) {
         console.error('Fatal error:', error);
