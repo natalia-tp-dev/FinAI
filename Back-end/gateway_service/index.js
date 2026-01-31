@@ -4,6 +4,7 @@ const { apiReference } = require('@scalar/express-api-reference')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const axios = require('axios')
+const swaggerJsdoc = require('swagger-jsdoc')
 const app = express()
 const userRoutes = require('./routes/user-routes')
 const categoryRoutes = require('./routes/category-routes')
@@ -30,52 +31,126 @@ app.use('/api/reports', reportRoutes)
 app.use('/api/payments', paymentRoutes)
 
 
-const getSpecs = async () => {
-    try {
-        const [payRes, aiRes] = await Promise.all([
-            axios.get('https://payment-s7po.onrender.com/v3/api-docs'),
-            axios.get('https://ai-jm4p.onrender.com/openapi.json')
-        ]);
-        return { payments: payRes.data, ai: aiRes.data };
-    } catch (e) {
-        console.error("Error cargando specs para Scalar:", e.message);
-        return null;
-    }
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'FinAI Gateway API',
+            version: '1.0.0',
+            description: 'API Gateway para FinAI - Gestión financiera con IA',
+        },
+        servers: [
+            {
+                url: process.env.GATEWAY_URL ,
+                description: 'Gateway Server'
+            }
+        ],
+        components: {
+            securitySchemes: {
+                cookieAuth: {
+                    type: 'apiKey',
+                    in: 'cookie',
+                    name: 'token'
+                }
+            }
+        }
+    },
+    apis: ['./routes/*.js'], // Lee los comentarios OpenAPI de tus rutas
 };
 
-app.get('/reference', async (req, res) => {
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+// Endpoint para obtener el spec de este gateway
+app.get('/openapi.json', (req, res) => {
+    res.json(swaggerSpec);
+});
+
+// Usa el middleware de Scalar directamente
+app.use(
+    '/reference',
+    apiReference({
+        theme: 'purple',
+        spec: {
+            content: swaggerSpec
+        },
+        metaData: {
+            title: 'FinAI API Documentation',
+            description: 'Complete API reference for FinAI services',
+            ogDescription: 'Financial AI API Documentation',
+        }
+    })
+);
+
+// Endpoint alternativo para combinar múltiples specs (opcional)
+app.get('/reference-all', async (req, res) => {
     try {
-        const specs = await getSpecs();
-        if (!specs) return res.status(503).send("Servicios despertando en Render... Reintenta en 15 segundos.");
+        console.log('📡 Cargando specs externos...');
+        
+        const [payRes, aiRes] = await Promise.allSettled([
+            axios.get('https://payment-s7po.onrender.com/v3/api-docs', { timeout: 10000 }),
+            axios.get('https://ai-jm4p.onrender.com/openapi.json', { timeout: 10000 })
+        ]);
 
-        // Escapar correctamente el JSON para evitar problemas de inyección
-        const paymentsSpec = JSON.stringify(specs.payments).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
-        const aiSpec = JSON.stringify(specs.ai).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+        const externalSpecs = [];
+        
+        if (payRes.status === 'fulfilled') {
+            console.log('✅ Payments API cargada');
+            externalSpecs.push({
+                url: 'https://payment-s7po.onrender.com',
+                spec: payRes.value.data
+            });
+        } else {
+            console.log('⚠️ Payments API no disponible:', payRes.reason.message);
+        }
 
-        console.log(aiSpec);
-        res.send(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>FinAI API Reference</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body>
-        <script id="api-reference" data-configuration='{
-          "theme": "purple",
-          "spec": { "content": ${paymentsSpec} },
-          "targets": [
-            { "label": "Payments (Java)", "content": ${paymentsSpec} },
-            { "label": "AI (FastAPI)", "content": ${aiSpec} }
-          ]
-        }'></script>
-        <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
-      </body>
-    </html>
-    `);
+        if (aiRes.status === 'fulfilled') {
+            console.log('✅ AI API cargada');
+            externalSpecs.push({
+                url: 'https://ai-jm4p.onrender.com',
+                spec: aiRes.value.data
+            });
+        } else {
+            console.log('⚠️ AI API no disponible:', aiRes.reason.message);
+        }
+
+        // Combinar specs en un solo documento
+        const combinedSpec = {
+            openapi: '3.0.0',
+            info: {
+                title: 'FinAI Complete API',
+                version: '1.0.0',
+                description: 'Documentación completa de todos los servicios de FinAI'
+            },
+            servers: [
+                { url: process.env.GATEWAY_URL || 'http://localhost:3000', description: 'Gateway' },
+                { url: 'https://payment-s7po.onrender.com', description: 'Payments Service' },
+                { url: 'https://ai-jm4p.onrender.com', description: 'AI Service' }
+            ],
+            paths: {
+                ...swaggerSpec.paths,
+                ...(payRes.status === 'fulfilled' ? payRes.value.data.paths : {}),
+                ...(aiRes.status === 'fulfilled' ? aiRes.value.data.paths : {})
+            },
+            components: {
+                ...swaggerSpec.components,
+                ...(payRes.status === 'fulfilled' ? payRes.value.data.components : {}),
+                ...(aiRes.status === 'fulfilled' ? aiRes.value.data.components : {})
+            }
+        };
+
+        return apiReference({
+            theme: 'purple',
+            spec: {
+                content: combinedSpec
+            },
+            metaData: {
+                title: 'FinAI Complete API Documentation',
+            }
+        })(req, res);
+
     } catch (e) {
-        res.status(500).send("Error interno: " + e.message);
+        console.error('❌ Error:', e.message);
+        res.status(500).send('Error cargando documentación completa');
     }
 });
 
