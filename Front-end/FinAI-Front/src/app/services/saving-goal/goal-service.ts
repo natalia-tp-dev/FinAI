@@ -9,7 +9,7 @@ import { SuccessResponse } from '../../interfaces/response/success-response';
   providedIn: 'root',
 })
 export class GoalService {
-  private URL = `${environment.gateWayUrl}/ai`
+  private URL = `api/ai`
   private http = inject(HttpClient)
   public updateGoal = signal<GoalData | null>(null)
   public refreshSignal = signal<number>(0)

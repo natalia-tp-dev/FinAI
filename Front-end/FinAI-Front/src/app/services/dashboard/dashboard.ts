@@ -8,7 +8,7 @@ import { MultiSeriesData } from '../../interfaces/data/transaction-data';
   providedIn: 'root',
 })
 export class DashboardService {
-  private readonly URL = `${environment.gateWayUrl}/transactions`
+  private readonly URL = `api/transactions`
   private http = inject(HttpClient)
 
   getYearlyTrend(user_id: string): Observable<MultiSeriesData[]> {

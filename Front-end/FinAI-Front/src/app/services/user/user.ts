@@ -16,7 +16,7 @@ export class User {
   private http = inject(HttpClient);
 
   /** Base API gateway URL */
-  private URL = environment.gateWayUrl;
+  private URL = `api`;
   private userIdSignal = signal<string>('')
   public userId = this.userIdSignal.asReadonly()
 

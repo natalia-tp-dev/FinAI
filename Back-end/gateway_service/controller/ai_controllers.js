@@ -36,13 +36,6 @@ const analyze_indiviual_goal = async (req, res) => {
 
     } catch (err) {
         console.error(err.message)
-        if (err.code === 'ECONNREFUSED' || err.timeout) {
-            return res.status(201).json({
-                message: 'Meta creada, pero el servicio de IA no está disponible.',
-                data: newGoal, 
-                aiReport: null
-            });
-        }
 
         res.status(500).json({ error: 'Error interno del servidor' });
     }

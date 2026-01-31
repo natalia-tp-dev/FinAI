@@ -16,7 +16,7 @@ export class PaymentService {
   private http = inject(HttpClient);
 
   /** Base payment API URL */
-  private URL = environment.gateWayUrl;
+  private URL = `api`;
 
   /**
    * Generates a payment request for the selected plan.

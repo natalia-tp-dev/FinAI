@@ -11,7 +11,7 @@ import { SuccessResponse } from '../../interfaces/response/success-response';
 export class TransactionService {
   
   private http = inject(HttpClient)
-  private URL = environment.gateWayUrl
+  private URL = `api`
   public refreshSignal = signal<number>(0)
   public transactionToEdit = signal<Transaction | null>(null)
 

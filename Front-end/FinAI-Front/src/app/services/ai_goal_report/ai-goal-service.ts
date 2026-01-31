@@ -10,7 +10,7 @@ import { SuccessResponse } from '../../interfaces/response/success-response';
   providedIn: 'root',
 })
 export class AIGoalStatefulService {
-  private URL = `${environment.gateWayUrl}/ai`
+  private URL = `api/ai`
   private http = inject(HttpClient)
   public isGenerating = signal<boolean>(false)
 

@@ -15,7 +15,7 @@ export class Category {
   private http = inject(HttpClient);
 
   /** Base API URL */
-  private URL = environment.gateWayUrl;
+  private URL = `api`;
 
   private categoriesSignal = signal<CategoryData[]>([]) 
   public categories = this.categoriesSignal.asReadonly()
