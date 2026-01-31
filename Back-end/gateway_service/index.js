@@ -30,47 +30,46 @@ app.use('/api/reports', reportRoutes)
 app.use('/api/payments', paymentRoutes)
 
 
-// Ruta interna para servir la doc de Pagos sin problemas de CORS
-app.get('/api-docs/payments', async (req, res) => {
+const getSpecs = async () => {
     try {
-        const response = await axios.get('https://payment-s7po.onrender.com/v3/api-docs');
-        res.json(response.data);
+        const [payRes, aiRes] = await Promise.all([
+            axios.get('https://payment-s7po.onrender.com/v3/api-docs'),
+            axios.get('https://ai-jm4p.onrender.com/openapi.json')
+        ]);
+        return { payments: payRes.data, ai: aiRes.data };
     } catch (e) {
-        res.status(500).json({ error: "No se pudo cargar la doc de Pagos" });
+        console.error("Error cargando specs para Scalar:", e.message);
+        return null;
     }
-});
-
-// Ruta interna para servir la doc de IA
-app.get('/api-docs/ai', async (req, res) => {
-    try {
-        const response = await axios.get('https://ai-jm4p.onrender.com/openapi.json');
-        res.json(response.data);
-    } catch (e) {
-        res.status(500).json({ error: "No se pudo cargar la doc de IA" });
-    }
-});
+};
 
 app.use(
     '/reference',
-    apiReference({
-        theme: 'purple',
-        configuration: {
-            spec: {
-                url: '/api-docs/payments',
+    async (req, res, next) => {
+        const specs = await getSpecs();
+        if (!specs) return res.status(500).send("Error despertando microservicios. Reintenta en 10 segundos.");
+
+        apiReference({
+            theme: 'purple',
+            configuration: {
+                
+                spec: {
+                    content: specs.payments 
+                },
+                targets: [
+                    {
+                        label: 'Payments (Java)',
+                        content: specs.payments,
+                    },
+                    {
+                        label: 'AI (FastAPI)',
+                        content: specs.ai,
+                    },
+                ],
             },
-            targets: [
-                {
-                    label: 'Payments (Java)',
-                    url: '/api-docs/payments',
-                },
-                {
-                    label: 'AI (FastAPI)',
-                    url: '/api-docs/ai',
-                },
-            ],
-        },
-    })
-)
+        })(req, res, next);
+    }
+);
 
 const PORT = process.env.PORT || process.env.GATEWAY_PORT || 3000
 
