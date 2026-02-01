@@ -2,7 +2,7 @@ const { apiReference } = require('@scalar/express-api-reference')
 const axios = require('axios')
 const { swaggerSpec } = require('../config/swagger-config')
 
-// Función para hacer deep copy y agregar prefijos a tags
+
 const processPaths = (paths, prefix) => {
     const processed = {};
     
@@ -22,7 +22,6 @@ const processPaths = (paths, prefix) => {
     return processed;
 };
 
-// Función para extraer tags únicos
 const extractUniqueTags = (...pathObjects) => {
     const tags = new Set();
     
@@ -39,12 +38,10 @@ const extractUniqueTags = (...pathObjects) => {
     return Array.from(tags);
 };
 
-// Obtener el spec OpenAPI del gateway
 const getOpenApiSpec = (req, res) => {
     res.json(swaggerSpec);
 };
 
-// Debug de specs
 const debugSpecs = async (req, res) => {
     try {
         const [payRes, aiRes] = await Promise.allSettled([
@@ -78,7 +75,6 @@ const debugSpecs = async (req, res) => {
     }
 };
 
-// Renderizar documentación completa
 const getApiReference = async (req, res, next) => {
     try {
         console.log(' Cargando specs externos...');
@@ -88,10 +84,8 @@ const getApiReference = async (req, res, next) => {
             axios.get('https://ai-jm4p.onrender.com/openapi.json', { timeout: 10000 })
         ]);
 
-        // Procesar Gateway
         const gatewayPaths = processPaths(swaggerSpec.paths, 'Gateway');
         
-        // Procesar Payment
         let paymentPaths = {};
         let paymentComponents = {};
         if (payRes.status === 'fulfilled' && payRes.value.data) {
@@ -102,7 +96,6 @@ const getApiReference = async (req, res, next) => {
             console.log(' Payment API error:', payRes.status === 'rejected' ? payRes.reason.message : 'No data');
         }
 
-        // Procesar AI
         let aiPaths = {};
         let aiComponents = {};
         if (aiRes.status === 'fulfilled' && aiRes.value.data) {
@@ -113,14 +106,12 @@ const getApiReference = async (req, res, next) => {
             console.log(' AI API error:', aiRes.status === 'rejected' ? aiRes.reason.message : 'No data');
         }
 
-        // Extraer tags únicos
         const allTags = extractUniqueTags(gatewayPaths, paymentPaths, aiPaths);
         
         const gatewayTags = allTags.filter(t => t.startsWith('Gateway -'));
         const paymentTags = allTags.filter(t => t.startsWith('Payment -'));
         const aiTags = allTags.filter(t => t.startsWith('AI -'));
 
-        // Crear tag groups
         const tagGroups = [];
         if (gatewayTags.length > 0) {
             tagGroups.push({
@@ -173,13 +164,6 @@ const getApiReference = async (req, res, next) => {
                 }
             }
         };
-
-        console.log(' Resumen del spec combinado:');
-        console.log('  Gateway paths:', Object.keys(gatewayPaths).length);
-        console.log('  Payment paths:', Object.keys(paymentPaths).length);
-        console.log('  AI paths:', Object.keys(aiPaths).length);
-        console.log('  Total paths:', Object.keys(combinedSpec.paths).length);
-        console.log('  Tag groups:', tagGroups.length);
 
         return apiReference({
             theme: 'purple',
